@@ -5,7 +5,10 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 
-void Setup() {
+int distanceOld = 0;
+int firstTimer = 1;
+
+void usSetup(void) {
 	// distance memory:   
 	wiringPiSetup();
 	pinMode(TRIG_1, OUTPUT);
@@ -29,7 +32,7 @@ void Setup() {
 	delay(30);
 }
 
-float GetDistanceLeft() {
+float usGetDistanceLeft(void) {
 	long travelTime = 0;
 	long startTime = 0;
 	float distance = 0;
@@ -67,13 +70,13 @@ float GetDistanceLeft() {
 
 		distanceOld = distance;
 	}
-	distance = clamp(distance, 0.0, 50.0);
+	distance = Clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;
 }
 
-float GetDistanceCenter() {
+float usGetDistanceCenter(void) {
 	long travelTime = 0;
 	long startTime = 0;
 	float distance = 0;
@@ -111,13 +114,13 @@ float GetDistanceCenter() {
 
 		distanceOld = distance;
 	}
-	distance = clamp(distance, 0.0, 50.0);
+	distance = Clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;
 }
 
-float GetDistanceRight() {
+float usGetDistanceRight(void) {
 	long travelTime = 0;
 	long startTime = 0;
 	float distance = 0;
@@ -155,7 +158,7 @@ float GetDistanceRight() {
 
 		distanceOld = distance;
 	}
-	distance = clamp(distance, 0.0, 50.0);
+	distance = Clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;

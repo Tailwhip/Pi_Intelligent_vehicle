@@ -2,14 +2,11 @@ from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Build import cythonize
 
-examples_extension = Extension(
-    name="pyexamples",
-    sources=["pyexamples.pyx"],
-    libraries=["examples"],
-    library_dirs=["lib"],
-    include_dirs=["lib"]
+extension = Extension(
+    name="ultrasonicWrp",
+    sources=["ultrasonicWrp.pyx", "clib/ultrasonic.c"]
 )
 setup(
-    name="pyexamples",
-    ext_modules=cythonize([examples_extension])
+    name="ultrasonic",
+    ext_modules=cythonize([extension])
 )
