@@ -9,8 +9,7 @@
         "name": "ultrasonicWrp", 
         "sources": [
             "ultrasonicWrp.pyx", 
-            "clib/ultrasonic.c", 
-            "clib/clamp.c"
+            "clib/ultrasonic.c"
         ]
     }, 
     "module_name": "ultrasonicWrp"

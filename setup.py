@@ -1,5 +1,4 @@
-from distutils.core import setup
-from distutils.extension import Extension
+from distutils.core import setup, Extension
 from Cython.Build import cythonize
 
 extension = Extension(
