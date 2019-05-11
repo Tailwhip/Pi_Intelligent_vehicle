@@ -3,9 +3,9 @@ from Cython.Build import cythonize
 
 extension = Extension(
     name="ultrasonicWrp",
-    sources=["ultrasonicWrp.pyx", "clib/ultrasonic.c"]
+    libraries=['wiringPi'],
+    sources=["ultrasonicWrp.pyx", "clib/ultrasonic.c", "clib/clamp.c"]
 )
-setup(
-    name="ultrasonic",
-    ext_modules=cythonize([extension])
+
+setup(ext_modules=cythonize([extension])
 )

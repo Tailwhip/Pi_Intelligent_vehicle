@@ -19,14 +19,14 @@ cdef extern from "clib/ultrasonic.h":
 
     float usGetDistanceRight()
 
-def usSetup():
-    usSetup()
+def setup():
+    return usSetup()
 
-def usGetDistanceLeft():
-    usGetDistanceLeft()
+def getDistLeft():
+    return usGetDistanceLeft()
 
-def usGetDistanceCenter():
-    usGetDistanceCenter()
+def getDistCenter():
+    return usGetDistanceCenter()
 
-def usGetDistanceRight():
-    usGetDistanceRight()
+def getDistRight():
+    return usGetDistanceRight()

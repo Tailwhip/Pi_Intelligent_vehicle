@@ -1,7 +1,7 @@
 import ultrasonicWrp as us
 
-us.usSetup()
+us.setup()
 
 while True:
-    print("US: {} {} {}".format(us.usGetDistanceLeft(), us.usGetDistanceCenter(),
-                                us.usGetDistanceRight()))
+    print("US: {} {} {}".format(us.getDistLeft(), us.getDistCenter(),
+                                us.getDistRight()))
