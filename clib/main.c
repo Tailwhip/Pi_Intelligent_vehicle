@@ -6,9 +6,11 @@ int main(){
     int i = 0;
     
     usSetup();
+    intSetup();
+    
     while (i == 0){
-        printf("US: %f %f %f | Intense: %f \n", usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
-         intGetIntensFrontLeft());
+        printf("US: %f %f %f | Intense: %f %f \n", usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
+         intGetIntensFrontLeft(), intGetIntensFrontRight());
     }
     
     return 0;

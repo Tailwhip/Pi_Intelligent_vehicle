@@ -6,19 +6,20 @@
 
 #include "intensity.h"
 
+int fd_0, fd_1;
+
 void intSetup(){
-	wiringPiI2CSetup(DEVICE);
+	fd_0 = wiringPiI2CSetup(DEVICE_0);
+	fd_1 = wiringPiI2CSetup(DEVICE_1);	
 }
 
 float intGetIntensFrontLeft(){
-	int fd, result;
+	int result;
 	float intensity;
 
-	fd = wiringPiI2CSetup(DEVICE_0);
-
-	wiringPiI2CWrite(fd, 0x11);
-	usleep(10000);
-	result = wiringPiI2CReadReg16(fd, 0x00);
+	wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
+	usleep(20000);
+	result = wiringPiI2CReadReg16(fd_0, 0x00);
 	result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
 	intensity = (float)result / MAX_INTENSITY;
 
@@ -30,26 +31,20 @@ float intGetIntensFrontLeft(){
 	return intensity;
 }
 
-/*
-int main(void) {
-	int fd, result;
+float intGetIntensFrontRight(){
+	int result;
 	float intensity;
-	int i = 0;
-	fd = wiringPiI2CSetup(DEVICE);
 
-	while (i == 0) {
-	  wiringPiI2CWrite(fd, 0x11);
-	  usleep(10000);
-	  result = wiringPiI2CReadReg16(fd, 0x00);
-	  result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
-	  intensity = (float)result / MAX_INTENSITY;
-	  printf("%f \n", intensity);
+	wiringPiI2CWrite(fd_1, CONTINUOUS_LOW_RES_MODE);
+	usleep(20000);
+	result = wiringPiI2CReadReg16(fd_1, 0x00);
+	result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
+	intensity = (float)result / MAX_INTENSITY;
 
-	  if(intensity == -1)
-	  {
-		 printf("Error.  Errno is: %d \n", errno);
-	  }
+	if(intensity == -1)
+	{
+	 printf("Error.  Errno is: %d \n", errno);
 	}
-	return 0;
+
+	return intensity;
 }
-*/
