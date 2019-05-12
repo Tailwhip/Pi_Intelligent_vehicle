@@ -1,9 +1,7 @@
-#include "ultrasonic.h"
-#include "clamp.h"
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <wiringPi.h>
+
+#include "ultrasonic.h"
+#include "clamp.c"
 
 int distanceOld = 0;
 int firstTimer = 1;
@@ -70,7 +68,7 @@ float usGetDistanceLeft(void) {
 
 		distanceOld = distance;
 	}
-	distance = Clamp(distance, 0.0, 50.0);
+	distance = clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;
@@ -114,7 +112,7 @@ float usGetDistanceCenter(void) {
 
 		distanceOld = distance;
 	}
-	distance = Clamp(distance, 0.0, 50.0);
+	distance = clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;
@@ -158,7 +156,7 @@ float usGetDistanceRight(void) {
 
 		distanceOld = distance;
 	}
-	distance = Clamp(distance, 0.0, 50.0);
+	distance = clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
 
 	return distance;

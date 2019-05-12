@@ -1,12 +1,14 @@
 #include <stdio.h>
-#include "ultrasonic.h"
+#include "ultrasonic.c"
+#include "intensity.c"
 
 int main(){
     int i = 0;
     
     usSetup();
     while (i == 0){
-        printf("USonics: %f %f %f \n", usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight());
+        printf("US: %f %f %f | Intense: %f \n", usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
+         intGetIntensFrontLeft());
     }
     
     return 0;
