@@ -36,10 +36,10 @@ float usGetDistanceLeft(void) {
 	float distance = 0;
 	
 	while (travelTime == 0) {
-		int TIMER = 10;
+		int TIMER = 2;
 		//Send trig pulse
 		digitalWrite(TRIG_1, HIGH);
-		delayMicroseconds(0.1);
+		delayMicroseconds(US_DELAY);
 		digitalWrite(TRIG_1, LOW);
  
 		//Wait for echo start
@@ -80,10 +80,10 @@ float usGetDistanceCenter(void) {
 	float distance = 0;
 	
 	while (travelTime == 0) {
-		int TIMER = 10;
+		int TIMER = 2;
 		//Send trig pulse
 		digitalWrite(TRIG_2, HIGH);
-		delayMicroseconds(0.1);
+		delayMicroseconds(US_DELAY);
 		digitalWrite(TRIG_2, LOW);
  
 		//Wait for echo start
@@ -124,10 +124,10 @@ float usGetDistanceRight(void) {
 	float distance = 0;
 	
 	while (travelTime == 0) {
-		int TIMER = 10;
+		int TIMER = 2;
 		//Send trig pulse
 		digitalWrite(TRIG_3, HIGH);
-		delayMicroseconds(0.1);
+		delayMicroseconds(US_DELAY);
 		digitalWrite(TRIG_3, LOW);
  
 		//Wait for echo start

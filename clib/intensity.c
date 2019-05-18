@@ -18,9 +18,9 @@ float intGetIntensFrontLeft(){
 	float intensity;
 
 	wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
-	usleep(20000);
+	usleep(INT_DELAY);
 	result = wiringPiI2CReadReg16(fd_0, 0x00);
-	result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
+	//result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
 	intensity = (float)result / MAX_INTENSITY;
 
 	if(intensity == -1)
@@ -36,9 +36,9 @@ float intGetIntensFrontRight(){
 	float intensity;
 
 	wiringPiI2CWrite(fd_1, CONTINUOUS_LOW_RES_MODE);
-	usleep(20000);
+	usleep(INT_DELAY);
 	result = wiringPiI2CReadReg16(fd_1, 0x00);
-	result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
+	//result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
 	intensity = (float)result / MAX_INTENSITY;
 
 	if(intensity == -1)
