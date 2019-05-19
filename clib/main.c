@@ -11,12 +11,11 @@ int main(){
     velSetup();
     
     while (i == 0){
-        printf("US: %f %f %f | Intense: %f %f | Velocity: %f \n", 
+        printf("US: %f %f %f     | Intense: %f %f     | Velocity: %f \n", 
         usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
         intGetIntensFrontLeft(), intGetIntensFrontRight(),
         velGetVelocityX());
     }
-    
     return 0;
 }
 

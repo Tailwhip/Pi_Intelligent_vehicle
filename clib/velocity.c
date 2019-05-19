@@ -3,60 +3,46 @@
 #include <wiringPiI2C.h>
 #include <errno.h>
 #include <unistd.h>
+#include <asm/types.h>
 
 #include "velocity.h"
 
 int fd;
+int time;
 
 void velSetup() {
-	//wiringPiSetup();
 	fd = wiringPiI2CSetup(DEVICE);
-	/*
-	wiringPiI2CWriteReg8(fd, CTRL_REG1, 0xA7);
-	wiringPiI2CWriteReg8(fd, CTRL_REG2, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG3, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG4, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG5, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG6, 0x00);
-	wiringPiI2CWriteReg8(fd, REFERENCE, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_THS, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_DUR, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_CFG, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG5, 0x00);
-	*/
+	wiringPiI2CWriteReg8(fd, CTRL_REG1, 0xA7);							// 0b 1010 0111 - Turning on all axis with 100 Hz
+	wiringPiI2CWriteReg8(fd, CTRL_REG4, 0x10); 							// 0b 0001 1000 - Turning on High res mode and +/- 4 g
+	time = micros();
 }
 
 float velGetVelocityX() {
-	int result;
+	__s32 result;
+	float value;
+	float normValue;
 	float velocity;
-	/*
-	wiringPiI2CWriteReg8(fd, CTRL_REG1, 0xA7);
-	wiringPiI2CWriteReg8(fd, CTRL_REG2, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG3, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG4, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG5, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG6, 0x00);
-	wiringPiI2CWriteReg8(fd, REFERENCE, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_THS, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_DUR, 0x00);
-	wiringPiI2CWriteReg8(fd, INT1_CFG, 0x00);
-	wiringPiI2CWriteReg8(fd, CTRL_REG5, 0x00);
-	*/
-	//printf("status: %d | ", wiringPiI2CReadReg8(fd, STATUS_REG));
-	
-	//usleep(2000);
-	
-	//printf("OUTX: %d | ", (wiringPiI2CReadReg16(fd, OUTX_H) & wiringPiI2CReadReg16(fd, OUTX_L)));
-	//printf("OUTY: %d | ", (wiringPiI2CReadReg16(fd, OUTY_H) & wiringPiI2CReadReg16(fd, OUTY_L)));
-	
+		
 	result = wiringPiI2CReadReg16(fd, OUTX_H);
-	//result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
-	velocity = (float)result / MAX_VELOCITY;
-
-	if(velocity == -1)
+	if(result < 0)
 	{
 	 printf("Error.  Errno is: %d \n", errno);
 	}
+	
+	value = (__s16)result;
+	normValue = value / MAX_ACC;
+	
+	velocity = velAccDerivative(normValue);
+	
+	return (float)velocity / MAX_VELOCITY;
+}
 
-	return velocity;
+float velAccDerivative(float acc){
+	int delTime;
+	
+	delTime = micros() - time;
+	time = micros();
+	printf("DELTATIME: %i    | ", delTime);
+	
+	return acc * delTime;
 }
