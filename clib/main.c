@@ -3,7 +3,7 @@
 #include "intensity.c"
 #include "acceleration.c"
 
-int main(){
+int main() {
     int i = 0;
     
     usSetup();
@@ -12,9 +12,9 @@ int main(){
     
     while (i == 0){
         printf("US: %f %f %f     | Intense: %f %f     | Acceleration: %f %f \n", 
-        usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
-        intGetIntensFrontLeft(), intGetIntensFrontRight(),
-        accGetAccX(), accGetAccX());
+        usGetDistance(1), usGetDistance(3), usGetDistance(5),
+        intGetIntensity(1), intGetIntensity(2),
+        accGetAccX(), accGetAccY());
     }
     return 0;
 }

@@ -1,50 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <wiringPiI2C.h>
-#include <errno.h>
-#include <unistd.h>
+#ifndef INTENSITY_H
+#define INTENSITY_H
 
-#include "intensity.h"
+//Define some constants from the datasheet
+#define DEVICE_0				    0x23 // Default device I2C address whith ADDR non set
+#define DEVICE_1				    0x5c // Default device I2C address whith ADDR set
+#define POWER_DOWN					0x00 // No active state
+#define POWER_ON				    0x01 // Power on
+#define RESET       				0x07 // Reset data register value
+ 
+// Start measurement at 4lx resolution. Time typically 16 ms.
+#define CONTINUOUS_LOW_RES_MODE    	0x13
+// Start measurement at 1 lx resolution. Time typically 120 ms
+#define CONTINUOUS_HIGH_RES_MODE_1 	0x10
+// Start measurement at 0.5 lx resolution. Time typically 120 ms
+#define CONTINUOUS_HIGH_RES_MODE_2 	0x11
+// Start measurement at 1 lx resolution. Time typically 120 ms
+// Device is automatically set to Power Down after measurement.
+#define ONE_TIME_HIGH_RES_MODE_1   	0x20
+// Start measurement at 0.5 lx resolution. Time typically 120 ms
+// Device is automatically set to Power Down after measurement.
+#define ONE_TIME_HIGH_RES_MODE_2   	0x21
+// Start measurement at 1lx resolution. Time typically 120 ms
+// Device is automatically set to Power Down after measurement.
+#define ONE_TIME_LOW_RES_MODE      	0x23
+// Maximum intensity value:
+#define MAX_INTENSITY              	65535 // 65280 // 63237
+#define INT_DELAY					25000 // [us]
 
-int fd_0, fd_1;
 
-void intSetup(){
-	fd_0 = wiringPiI2CSetup(DEVICE_0);
-	fd_1 = wiringPiI2CSetup(DEVICE_1);	
-}
+void intSetup(void);
 
-float intGetIntensFrontLeft(){
-	int result;
-	float intensity;
+float intGetIntensity(int sensNum);
 
-	wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
-	usleep(INT_DELAY);
-	result = wiringPiI2CReadReg16(fd_0, 0x00);
-	//result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
-	intensity = (float)result / MAX_INTENSITY;
+float intCountIntensity(int fd);
 
-	if(intensity == -1)
-	{
-	 printf("Error.  Errno is: %d \n", errno);
-	}
-
-	return intensity;
-}
-
-float intGetIntensFrontRight(){
-	int result;
-	float intensity;
-
-	wiringPiI2CWrite(fd_1, CONTINUOUS_LOW_RES_MODE);
-	usleep(INT_DELAY);
-	result = wiringPiI2CReadReg16(fd_1, 0x00);
-	//result = ((result & 0xff00)>>8) | ((result & 0x00ff)<<8);
-	intensity = (float)result / MAX_INTENSITY;
-
-	if(intensity == -1)
-	{
-	 printf("Error.  Errno is: %d \n", errno);
-	}
-
-	return intensity;
-}
+#endif
