@@ -46,12 +46,14 @@ float usGetDistanceLeft(void) {
 		while(digitalRead(ECHO_1) == LOW) {
 			//Wait for echo end
 			startTime = micros();
+			//delayMicroseconds(100);
 			TIMER--;
 			if (TIMER == 0)
 				break;
 		}
 		
-		if (TIMER == 0)
+		if (digitalRead(ECHO_1) == LOW)
+			//return 1;
 			continue;
 	
 		while(digitalRead(ECHO_1) == HIGH)

@@ -1,5 +1,5 @@
-#ifndef VELOCITY_H
-#define VELOCITY_H
+#ifndef ACCELERATION_H
+#define ACCELERATION_H
 
 #define DEVICE			0x18
 
@@ -22,12 +22,13 @@
 
 
 #define MAX_ACC 		65280
-#define MAX_VELOCITY 	28300
 
-void velSetup(void);
+void accSetup(void);
 
-float velGetVelocityX(void);
+float accGetAccX(void);
 
-float velAccDerivative(float acc);
+float accGetAccY(void);
+
+float accAccDerivative(float acc);
 
 #endif

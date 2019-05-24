@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "ultrasonic.c"
 #include "intensity.c"
-#include "velocity.c"
+#include "acceleration.c"
 
 int main(){
     int i = 0;
@@ -11,10 +11,10 @@ int main(){
     velSetup();
     
     while (i == 0){
-        printf("US: %f %f %f     | Intense: %f %f     | Velocity: %f \n", 
+        printf("US: %f %f %f     | Intense: %f %f     | Acceleration: %f %f \n", 
         usGetDistanceLeft(), usGetDistanceCenter(), usGetDistanceRight(),
         intGetIntensFrontLeft(), intGetIntensFrontRight(),
-        velGetVelocityX());
+        accGetAccX(), accGetAccX());
     }
     return 0;
 }
