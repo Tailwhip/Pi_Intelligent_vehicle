@@ -1,6 +1,6 @@
 #include "clamp.h"
 
-double clamp(float d, float min, float max) {
+float clamp(float d, float min, float max) {
   const float t = d < min ? min : d;
   return t > max ? max : t;
 }

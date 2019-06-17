@@ -1,5 +1,6 @@
-#include <wiringPi.h>
-#include <softPwm.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <pigpio.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -7,18 +8,23 @@
 #include "servo.h"
 #include "clamp.c"
 
-int distanceOld = 0;
-int firstTimer = 1;
-
-void usSetup(void) {
-
-	if (wiringPiSetup () == -1)
-	{
-	fprintf (stdout, "Servo problem: %s\n", strerror (errno)) ;
-	return 1 ;
-	}
+void svSetup(void) {
+	if (gpioInitialise() < 0) 
+	printf("Servo problem");
 }
 
-void svRide(void) {
-	
+void svRide(float quality) {
+	quality = clamp(quality, -1, 1);
+	float multiplier = 500 * quality;
+	svSetup();
+	printf("Ride %f \n", quality);
+	//gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
+	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier);
+	time_sleep(0.2);
+	gpioTerminate();
 }
+
+void svTurn(void) {
+	printf("Turn \n");
+	gpioServo(RIGHT_WHEEL, 500);
+};
