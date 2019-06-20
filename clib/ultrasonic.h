@@ -4,17 +4,17 @@
 #define TRIG_1		7
 #define ECHO_1		15
 
-#define TRIG_2		9 	// to be setted
-#define ECHO_2		9	// to be setted
+#define TRIG_2		16
+#define ECHO_2		0
 
 #define TRIG_3		1
 #define ECHO_3		2
 
-#define TRIG_4		9	// to be setted
-#define ECHO_4		9	// to be setted
+#define TRIG_4		3
+#define ECHO_4		4
 
-#define TRIG_5		3
-#define ECHO_5		4
+#define TRIG_5		5
+#define ECHO_5		12
 
 #define US_DELAY	0.01
 

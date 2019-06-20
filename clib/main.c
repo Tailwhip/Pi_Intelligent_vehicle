@@ -17,11 +17,11 @@ int main() {
     usSetup();
     //intSetup();
     //velSetup();
-
     
     while (i == 0) {
-        printf("US: %f \n",
-        usGetDistance(1));//, usGetDistance(3), usGetDistance(5),
+        printf("US: %f %f %f %f %f \n",
+        usGetDistance(1), usGetDistance(2), usGetDistance(3),
+        usGetDistance(4), usGetDistance(5));//, usGetDistance(3), usGetDistance(5),
         //intGetIntensity(1), intGetIntensity(2),
         //accGetAccX(), accGetAccY());
         

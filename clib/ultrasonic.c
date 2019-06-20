@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "ultrasonic.h"
-#include "clamp.h"
+#include "clamp.c"
 
 int distanceOld = 0;
 int firstTimer = 1;
@@ -12,9 +12,9 @@ void usSetup(void) {
 	wiringPiSetup();
 	
 	usSensSetup(TRIG_1, ECHO_1);
-	//usSensSetup(TRIG_2, ECHO_2);
+	usSensSetup(TRIG_2, ECHO_2);
 	usSensSetup(TRIG_3, ECHO_3);
-	//usSensSetup(TRIG_4, ECHO_4);
+	usSensSetup(TRIG_4, ECHO_4);
 	usSensSetup(TRIG_5, ECHO_5);
 	
 	delay(30);
@@ -61,12 +61,10 @@ float usCountDistance(int trig, int echo) {
 		digitalWrite(trig, HIGH);
 		delayMicroseconds(US_DELAY);
 		digitalWrite(trig, LOW);
- 
 		//Wait for echo start
 		while(digitalRead(echo) == LOW) {
 			//Wait for echo end
 			startTime = micros();
-			//delayMicroseconds(100);
 			TIMER--;
 			if (TIMER == 0)
 				break;
@@ -92,6 +90,6 @@ float usCountDistance(int trig, int echo) {
 	}
 	distance = clamp(distance, 0.0, 50.0);
 	distance = (distance / 50.0);
-
+	
 	return distance;
 }

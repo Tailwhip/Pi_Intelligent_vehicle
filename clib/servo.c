@@ -5,8 +5,8 @@
 #include <errno.h>
 #include <string.h>
 
-#include "servo.c"
-#include "clamp.c"
+#include "servo.h"
+//#include "clamp.c"
 
 void svSetup(void) {
 	if (gpioInitialise() < 0) 
