@@ -1,7 +1,7 @@
 src = $(wildcard *.c)
 obj = $(src: .c=.o)
 
-LDFLAGS = -lwiringPi
+LDFLAGS = -lpthread -lwiringPi -lpigpio 
 
 myprog: $(obj)
 	$(CC) -o $@ $^ $(LDFLAGS)

@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "ultrasonic.h"
-#include "clamp.c"
+#include "clamp.h"
 
 int distanceOld = 0;
 int firstTimer = 1;

@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <string.h>
 
-#include "servo.h"
+#include "servo.c"
 #include "clamp.c"
 
 void svSetup(void) {
@@ -14,23 +14,27 @@ void svSetup(void) {
 }
 
 void svRide(float quality) {
-	quality = clamp(quality, -1, 1);
-	float multiplier = 500 * quality;
-	svSetup();
+	
 	printf("Ride %f \n", quality);
-	gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
-	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier);
-	time_sleep(0.2);
-	gpioTerminate();
+	
+	//quality = clamp(quality, -1, 1);
+	//float multiplier = 500 * quality;
+	//svSetup();
+	//gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
+	//gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier);
+	time_sleep(DRIVE_TIME);
+	//gpioTerminate();
 }
 
 void svTurn(float quality) {
+	
 	printf("Turn %f \n", quality);
-	quality = clamp(quality, -1, 1);
-	float multiplier = 500 * quality;
-	svSetup();
-	gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
-	gpioServo(LEFT_WHEEL, MID_WIDTH + (int)multiplier);
-	time_sleep(0.2);
-	gpioTerminate();
+	
+	//quality = clamp(quality, -1, 1);
+	//float multiplier = 500 * quality;
+	//svSetup();
+	//gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
+	//gpioServo(LEFT_WHEEL, MID_WIDTH + (int)multiplier);
+	time_sleep(DRIVE_TIME);
+	//gpioTerminate();
 };

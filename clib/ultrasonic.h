@@ -2,7 +2,7 @@
 #define ULTRASONIC_H
 
 #define TRIG_1		7
-#define ECHO_1		0
+#define ECHO_1		15
 
 #define TRIG_2		9 	// to be setted
 #define ECHO_2		9	// to be setted
