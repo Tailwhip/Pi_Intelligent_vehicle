@@ -13,6 +13,6 @@ void svSetup(void);
 
 void svRide(float quality);
 
-void svTurn(void);
+void svTurn(float quality);
 
 #endif
