@@ -1,7 +1,7 @@
 #ifndef ACCELERATION_H
 #define ACCELERATION_H
 
-#define DEVICE			0x18
+#define DEVICE			0x19
 
 #define CTRL_REG1		0x20
 #define CTRL_REG2		0x21

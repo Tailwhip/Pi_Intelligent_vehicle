@@ -15,15 +15,15 @@ int main() {
     int i = 0;
     intSetup();
     usSetup();
-    //velSetup();
+    velSetup();
     
     while (i == 0) {
         
-        printf("US: %f %f %f %f %f INT: %f %f %f %f \n",
+        printf("US: %f %f %f %f %f | INT: %f %f %f %f | ACC: %f %f \n",
         usGetDistance(1), usGetDistance(2), usGetDistance(3),
         usGetDistance(4), usGetDistance(5), intGetIntensity(1), 
-        intGetIntensity(2), intGetIntensity(3), intGetIntensity(4));
-        //accGetAccX(), accGetAccY());
+        intGetIntensity(2), intGetIntensity(3), intGetIntensity(4),
+        accGetAccX(), accGetAccY());
         
         svRide(randfloat(1));
         svRide(randfloat(-1));

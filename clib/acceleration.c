@@ -8,7 +8,7 @@
 #include "acceleration.h"
 
 int fd;
-int time;
+int oldTime;
 float velocityOld;
 
 void velSetup() {
@@ -16,7 +16,7 @@ void velSetup() {
 	wiringPiI2CWriteReg8(fd, CTRL_REG1, 0xA3);							// 0b 1010 0111 - Turning on all axis with 100 Hz
 	wiringPiI2CWriteReg8(fd, CTRL_REG2, 0x09);
 	wiringPiI2CWriteReg8(fd, CTRL_REG4, 0x08); 							// 0b 0001 1000 - Turning on High res mode and +/- 4 g
-	time = micros();
+	oldTime = micros();
 	velocityOld = 0;
 }
 
@@ -57,8 +57,8 @@ float accGetAccY() {
 float velAccDerivative(float acc) {
 	int delTime;
 	
-	delTime = micros() - time;
-	time = micros();
+	delTime = micros() - oldTime;
+	oldTime = micros();
 	printf("DELTATIME: %i    | ", delTime);
 	
 	return acc * delTime;
