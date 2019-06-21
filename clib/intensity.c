@@ -3,42 +3,67 @@
 #include <wiringPiI2C.h>
 #include <errno.h>
 #include <unistd.h>
-
+#include <pigpio.h>
 #include "intensity.h"
 
-int fd_0, fd_1;
+int fd_0, fd_1, fd_2, fd_3;
 
 void intSetup(){
-	fd_0 = wiringPiI2CSetup(DEVICE_0);
-	fd_1 = wiringPiI2CSetup(DEVICE_1);	
+	//fd_0 = wiringPiI2CSetup(DEVICE_0);
+	//fd_1 = wiringPiI2CSetup(DEVICE_1);
+	gpioInitialise();
+	fd_2 = i2cOpen(1, DEVICE_0, 0);
+	fd_3 = i2cOpen(1, DEVICE_1, 0);
+	wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
+	wiringPiI2CWrite(fd_1, CONTINUOUS_LOW_RES_MODE);
+	i2cWriteByte(fd_2, CONTINUOUS_LOW_RES_MODE);
+	i2cWriteByte(fd_3, CONTINUOUS_LOW_RES_MODE);
 }
 
 float intGetIntensity(int sensNum) {
 	switch (sensNum) {
 		case 1:
 		// Left sensor:
-			return intCountIntensity(fd_0);
+			return intCountIntensity12(fd_0);
 		case 2:
 		// Center-left sensor:
-			return intCountIntensity(fd_1);
+			return intCountIntensity12(fd_1);
 		case 3:
 		// Center sensor:
-			return intCountIntensity(fd_0);
+			return intCountIntensity34(fd_2);
 		case 4:
 		// Center-right sensor:
-			return intCountIntensity(fd_1);
+			return intCountIntensity34(fd_3);
 		default:
 			return printf("Wrong number of intensity sensor!");
 	}
 }
 
-float intCountIntensity(int fd) {
+float intCountIntensity12(int fd) {
 	int result;
 	float intensity;
 
-	wiringPiI2CWrite(fd, CONTINUOUS_LOW_RES_MODE);
+	//wiringPiI2CWrite(fd, CONTINUOUS_LOW_RES_MODE);
 	usleep(INT_DELAY);
 	result = wiringPiI2CReadReg16(fd, 0x00);
+	
+	intensity = (float)result / MAX_INTENSITY;
+
+	if(intensity == -1)
+	{
+		printf("Error.  Errno is: %d \n", errno);
+	}
+
+	return intensity;
+}
+
+float intCountIntensity34(int fd) {
+	int result;
+	float intensity;
+
+	//i2cWriteByte(fd, CONTINUOUS_LOW_RES_MODE);
+	usleep(INT_DELAY);
+	result = i2cReadByte(fd);
 	
 	intensity = (float)result / MAX_INTENSITY;
 

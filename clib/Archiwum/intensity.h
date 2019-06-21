@@ -32,8 +32,6 @@ void intSetup(void);
 
 float intGetIntensity(int sensNum);
 
-float intCountIntensity12(int fd);
-
-float intCountIntensity34(int fd);
+float intCountIntensity(int fd);
 
 #endif
