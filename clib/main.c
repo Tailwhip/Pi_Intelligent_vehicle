@@ -19,10 +19,10 @@ int main() {
     
     while (i == 0) {
         
-        printf("US: %f %f %f %f %f INT: %f %f \n",
+        printf("US: %f %f %f %f %f INT: %f %f %f \n",
         usGetDistance(1), usGetDistance(2), usGetDistance(3),
         usGetDistance(4), usGetDistance(5), intGetIntensity(1), 
-        intGetIntensity(2));
+        intGetIntensity(2), intGetIntensity(4));
         //accGetAccX(), accGetAccY());
         
         // | Intense: %f %f     | Acceleration: %f %f \n"
@@ -33,5 +33,8 @@ int main() {
         svTurn(randfloat(1));
         svTurn(randfloat(-1));
     }
+    
+    intClose();
+    
     return 0;
 }

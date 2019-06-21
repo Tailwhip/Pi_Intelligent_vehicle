@@ -24,7 +24,7 @@
 // Device is automatically set to Power Down after measurement.
 #define ONE_TIME_LOW_RES_MODE      	0x23
 // Maximum intensity value:
-#define MAX_INTENSITY              	1 //65535 // 65280 // 63237
+#define MAX_INTENSITY              	65535 // 65280 // 63237
 #define INT_DELAY					25000 // [us]
 
 
@@ -36,6 +36,6 @@ float intGetIntensity(int sensNum);
 
 float intCountIntensity12(int fd);
 
-float intCountIntensity(int fd);
+float intCountIntensity(int fd, int device);
 
 #endif
