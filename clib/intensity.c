@@ -9,7 +9,7 @@
 int fd_1, fd_2, fd_3, fd_4;
 
 void intSetup() {
-	gpioInitialise();
+	//gpioInitialise();
 	//fd_0 = wiringPiI2CSetup(DEVICE_0);
 	//fd_1 = wiringPiI2CSetup(DEVICE_1);
 	//wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <pigpio.h>
 #include "ultrasonic.c"
 #include "intensity.c"
 #include "acceleration.c"
@@ -13,6 +14,7 @@ float randfloat(float a)
 int main() {
     
     int i = 0;
+    svSetup();
     intSetup();
     usSetup();
     velSetup();
@@ -31,7 +33,7 @@ int main() {
         svTurn(randfloat(1));
         svTurn(randfloat(-1));
     }
-    
+    gpioTerminate();
     intClose();
     
     return 0;
