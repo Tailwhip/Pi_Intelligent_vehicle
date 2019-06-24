@@ -12,12 +12,12 @@ float randfloat(float a) {
 
 int main() {
     
-    int i = 0;
     svSetup();
     intSetup();
     usSetup();
     accSetup();
     
+    int i = 0;
     while (i == 0) {
         
         printf("US: %f %f %f %f %f | INT: %f %f %f %f | ACC: %f %f \n",

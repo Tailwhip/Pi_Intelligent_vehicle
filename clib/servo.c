@@ -10,7 +10,7 @@
 
 void svSetup(void) {
 	if (gpioInitialise() < 0) 
-	printf("Servo problem");
+		printf("Servo problem - can't initialise! \n");
 }
 
 void svRide(float quality) {
