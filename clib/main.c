@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pigpio.h>
-#include "ultrasonic.c"
-#include "intensity.c"
-#include "acceleration.c"
-#include "servo.c"
+#include "ultrasonic.h"
+#include "intensity.h"
+#include "acceleration.h"
+#include "servo.h"
 
-float randfloat(float a)
-{
+float randfloat(float a) {
    return (float)rand()/(float)(RAND_MAX/a);
 }
 
@@ -17,7 +16,7 @@ int main() {
     svSetup();
     intSetup();
     usSetup();
-    velSetup();
+    accSetup();
     
     while (i == 0) {
         

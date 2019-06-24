@@ -4,6 +4,8 @@
 #include <errno.h>
 #include <unistd.h>
 #include <asm/types.h>
+#include <stdio.h>
+#include <wiringPi.h>
 
 #include "acceleration.h"
 
@@ -11,7 +13,7 @@ int fd;
 int oldTime;
 float velocityOld;
 
-void velSetup() {
+void accSetup() {
 	fd = wiringPiI2CSetup(DEVICE);
 	wiringPiI2CWriteReg8(fd, CTRL_REG1, 0xA3);							// 0b 1010 0111 - Turning on all axis with 100 Hz
 	wiringPiI2CWriteReg8(fd, CTRL_REG2, 0x09);
@@ -28,7 +30,7 @@ float accGetAccX() {
 	result = wiringPiI2CReadReg16(fd, OUTX_H) & wiringPiI2CReadReg16(fd, OUTX_L);
 	if(result < 0)
 	{
-	 printf("Error.  Errno is: %d \n", errno);
+		printf("Error.  Errno is: %d \n", errno);
 	}
 	
 	acc = (__s16)result;
@@ -45,7 +47,7 @@ float accGetAccY() {
 	result = wiringPiI2CReadReg16(fd, OUTY_H) & wiringPiI2CReadReg16(fd, OUTY_L);
 	if(result < 0)
 	{
-	 printf("Error.  Errno is: %d \n", errno);
+		printf("Error.  Errno is: %d \n", errno);
 	}
 	
 	acc = (__s16)result;
@@ -54,7 +56,7 @@ float accGetAccY() {
 	return normAcc;
 }
 
-float velAccDerivative(float acc) {
+float accAccDerivative(float acc) {
 	int delTime;
 	
 	delTime = micros() - oldTime;

@@ -2,13 +2,13 @@
 #include <stdio.h>
 
 #include "ultrasonic.h"
-#include "clamp.c"
+#include "clamp.h"
 
 int distanceOld = 0;
 int firstTimer = 1;
 
 void usSetup(void) {
-	// distance memory:   
+	// distance memory:
 	wiringPiSetup();
 	
 	usSensSetup(TRIG_1, ECHO_1);

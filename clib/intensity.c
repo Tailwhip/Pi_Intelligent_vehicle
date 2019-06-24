@@ -9,7 +9,8 @@
 int fd_1, fd_2, fd_3, fd_4;
 
 void intSetup() {
-	//gpioInitialise();
+	if (gpioInitialise() < 0) 
+		printf("Servo problem");
 	//fd_0 = wiringPiI2CSetup(DEVICE_0);
 	//fd_1 = wiringPiI2CSetup(DEVICE_1);
 	//wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
@@ -60,8 +61,7 @@ float intCountIntensity12(int fd) {
 	
 	intensity = (float)result / MAX_INTENSITY;
 
-	if(intensity == -1)
-	{
+	if(intensity == -1) {
 		printf("Error.  Errno is: %d \n", errno);
 	}
 
@@ -77,8 +77,7 @@ float intCountIntensity(int fd, int device) {
 	
 	intensity = (float)result / MAX_INTENSITY;
 
-	if(intensity == -1)
-	{
+	if(intensity == -1) {
 		printf("Error.  Errno is: %d \n", errno);
 	}
 	
