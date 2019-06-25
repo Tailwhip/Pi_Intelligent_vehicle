@@ -2,9 +2,9 @@ from distutils.core import setup, Extension
 from Cython.Build import cythonize
 
 extension = Extension(
-    name="ultrasonicWrp",
+    name="ultrasonic",
     libraries=['wiringPi'],
-    sources=["ultrasonicWrp.pyx", "clib/ultrasonic.c", "clib/clamp.c"]
+    sources=["ultrasonic.pyx", "../clib/ultrasonic.c", "../clib/clamp.c"]
 )
 
 setup(ext_modules=cythonize([extension])
