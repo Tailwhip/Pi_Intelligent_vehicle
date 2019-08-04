@@ -1,18 +1,17 @@
 import gym
-from gym import error, spaces, utils
+from gym import spaces
 import numpy as np
-from gym.utils import seeding
 import random
 
 
-class IntelligentVehicle(gym.Env):
+class IntelligentVehicleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
-        super(IntelligentVehicle, self).__init__()
+        super(IntelligentVehicleEnv, self).__init__()
 
         # set the reward range
-        self.reward_range(0, 1)
+        # self.reward_range(0, 1)
 
         self.taken_action = 'Nothing'
 
@@ -46,33 +45,20 @@ class IntelligentVehicle(gym.Env):
         self.ride_backward = 0
 
         # defining an action space
-        self.action_space = spaces.Tuple((spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                          spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                          spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                          spaces.Box(low=0, high=1, shape=1, dtype=np.float32)))
+        self.action_space = spaces.Box(low=0.0, high=1.0, shape=(4, ), dtype=np.float16)
 
         # defining an observation space
-        self.observation_space = spaces.Tuple((spaces.Box(low=1, high=0, shape=1, dtype=np.float32),
-                                               spaces.Box(low=1, high=0, shape=1, dtype=np.float32),
-                                               spaces.Box(low=1, high=0, shape=1, dtype=np.float32),
-                                               spaces.Box(low=1, high=0, shape=1, dtype=np.float32),
-                                               spaces.Box(low=1, high=0, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32),
-                                               spaces.Box(low=0, high=1, shape=1, dtype=np.float32)))
+        self.observation_space = spaces.Box(low=1.0, high=0.0, shape=(11, ), dtype=np.float16)
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def _get_intensity(self):
         self.intensity = self.int_front_left + self.int_front_right + self.int_back_left + self.int_back_right
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def _get_distance(self):
         self.distance = self.us_left + self.us_center_left + self.us_center + self.us_center_right + self.us_right
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def _get_obs(self):
         # distance sensors
         self.us_left = random.uniform(0, 1)
@@ -97,7 +83,7 @@ class IntelligentVehicle(gym.Env):
         self._get_distance()
         return obs
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def _take_action(self, action):
         if (action[0] > action[1]) and (action[0] > action[2]) and (action[0] > action[3]):
             self.taken_action = 'ride forward'
@@ -108,12 +94,12 @@ class IntelligentVehicle(gym.Env):
         elif (action[3] > action[0]) and (action[3] > action[2]) and (action[3] > action[3]):
             self.taken_action = 'turn left'
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def reset(self):
         print('Go backward for a bit')
         return self._get_obs()
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def step(self, action):
         obs = self._get_obs()
         reward = 0
@@ -142,7 +128,7 @@ class IntelligentVehicle(gym.Env):
 
         return obs, reward, done, {}
 
-    # ----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
     def render(self, mode='human', close=False):
         print('Observations: {}'.format(self.us_left))
         print('An action is: {}'.format(self.taken_action))
