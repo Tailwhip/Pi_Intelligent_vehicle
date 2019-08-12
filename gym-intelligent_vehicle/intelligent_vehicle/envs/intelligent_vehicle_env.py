@@ -13,7 +13,8 @@ class IntelligentVehicleEnv(gym.Env):
         # set the reward range
         # self.reward_range(0, 1)
 
-        self.taken_action = 'Nothing'
+        self.riding = 'Riding'
+        self.turning = 'Turning'
 
         # distance sensors
         self.us_left = 0
@@ -45,10 +46,10 @@ class IntelligentVehicleEnv(gym.Env):
         self.ride_backward = 0
 
         # defining an action space
-        self.action_space = spaces.Box(low=0.0, high=1.0, shape=(4, ), dtype=np.float16)
+        self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2, ), dtype=np.float16)
 
         # defining an observation space
-        self.observation_space = spaces.Box(low=1.0, high=0.0, shape=(11, ), dtype=np.float16)
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(11, ), dtype=np.float16)
 
 # ----------------------------------------------------------------------------------------------------------------------
     def _get_intensity(self):
@@ -85,14 +86,8 @@ class IntelligentVehicleEnv(gym.Env):
 
 # ----------------------------------------------------------------------------------------------------------------------
     def _take_action(self, action):
-        if (action[0] > action[1]) and (action[0] > action[2]) and (action[0] > action[3]):
-            self.taken_action = 'ride forward'
-        elif (action[1] > action[0]) and (action[1] > action[2]) and (action[1] > action[3]):
-            self.taken_action = 'ride backward'
-        elif (action[2] > action[0]) and (action[2] > action[2]) and (action[2] > action[3]):
-            self.taken_action = 'turn right'
-        elif (action[3] > action[0]) and (action[3] > action[2]) and (action[3] > action[3]):
-            self.taken_action = 'turn left'
+        self.riding = 'Ride: {}'.format(action[0])
+        self.turning = 'Turn: {}'.format(action[1])
 
 # ----------------------------------------------------------------------------------------------------------------------
     def reset(self):
@@ -131,4 +126,5 @@ class IntelligentVehicleEnv(gym.Env):
 # ----------------------------------------------------------------------------------------------------------------------
     def render(self, mode='human', close=False):
         print('Observations: {}'.format(self.us_left))
-        print('An action is: {}'.format(self.taken_action))
+        print('An action is: {}'.format(self.riding))
+        print('An action is: {}'.format(self.turning))
