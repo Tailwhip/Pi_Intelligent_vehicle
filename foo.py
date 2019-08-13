@@ -16,37 +16,90 @@ np.savez('npzfile.npz', actions=actions, episode_returns=episode_returns, reward
 npzfile = np.load('expert_intelligent_vehicle.npz')
 
 a = npzfile['actions']
-b = npzfile['obs']
-c = npzfile['episode_returns']
-d = npzfile['rewards']
+b = npzfile['episode_returns']
+c = npzfile['rewards']
+d = npzfile['obs']
 e = npzfile['episode_starts']
+
+# print(a)
+
+
+# a function to convert. As an input:
+# ('string' sign_to_look_for, 'string' an_iterating_sign, 'int' iterator, '[]' buffer)
+def convert(_type, _sign, _iterator, _buffer):
+    string_buffer = ''
+    float_buffer = []
+    if _sign == _type:
+        j = _iterator
+        # till sign is not a '>' do...
+        while line[j] != '>':
+            j += 1
+            # if sign is ';' then it's the end of value and it needs to be put into the float buffer
+            if line[j] == ';':
+                # print('Sign: {}'.format(line[j]))
+                float_buffer.append(float(string_buffer))
+                string_buffer = ''
+                # print('float_buffer: {}'.format(float_buffer))
+            # if sign is not ';' then put it into the string buffer to complete a value
+            else:
+                # print('Sign: {}'.format(line[j]))
+                string_buffer += line[j]
+                # print('string_buffer: {}'.format(string_buffer))
+    # at finish put the buffer into the
+    _buffer.append(float_buffer)
+    return _buffer
+
 
 file = open('expert_intelligent_vehicle.txt')
 try:
-
     for line in file:
-        sample_buffer = []
-        float_buffer = []
+        actions_buffer = []
+        episode_returns_buffer = []
+        rewards_buffer = []
+        obs_buffer = []
+        episode_starts_buffer = []
+
         for i, sign in enumerate(line):
             # change ',' into '.'
             if sign == ',':
                 sign = '.'
+            actions_buffer = convert('a', sign, i, actions_buffer)
+            '''
+            # convert actions vector
             if sign == 'a':
+                string_buffer = ''
+                float_buffer = []
+                j = i
+                # till sign is not a '>' do...
+                while line[j] != '>':
+                    j += 1
+                    # if sign is ';' then it's the end of value and it needs to be put into the float buffer
+                    if line[j] == ';':
+                        #print('Sign: {}'.format(line[j]))
+                        float_buffer.append(float(string_buffer))
+                        string_buffer = ''
+                        #print('float_buffer: {}'.format(float_buffer))
+                    # if sign is not ';' then put it into the string buffer to complete a value
+                    else:
+                        #print('Sign: {}'.format(line[j]))
+                        string_buffer += line[j]
+                        #print('string_buffer: {}'.format(string_buffer))
+            # at finish put the buffer into the
+            actions_buffer.append(float_buffer)
+            
+            # convert reward value
+            if sign == 'r':
                 string_buffer = ''
                 j = i
                 while line[j] != '>':
                     j += 1
-                    if line[j] == ';':
-                        print('Sign: {}'.format(line[j]))
-                        float_buffer.append(float(string_buffer))
-                        string_buffer = ''
-                        print('float_buffer: {}'.format(float_buffer))
-                    else:
-                        print('Sign: {}'.format(line[j]))
-                        string_buffer += line[j]
-                        print('string_buffer: {}'.format(string_buffer))
-            sample_buffer.append(float_buffer)
-        actions = np.asanyarray(sample_buffer)
+            '''
+
+        # convert buffers into np arrays
+        actions = np.asanyarray(actions_buffer)
         print('actions: {}'.format(actions))
 finally:
     file.close()
+
+
+
