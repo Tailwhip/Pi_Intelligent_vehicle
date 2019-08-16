@@ -8,8 +8,6 @@ from stable_baselines import PPO2
 
 import intelligent_vehicle
 
-
-
 dataset = ExpertDataset(expert_path='expert_intelligent_vehicle.npz',
                         traj_limitation=1, batch_size=128)
 
@@ -18,10 +16,11 @@ env = gym.make('int-v0')
 env = DummyVecEnv([lambda: env])
 
 model = PPO2('MlpPolicy', env, verbose=1)
-model.learn(total_timesteps=2000)
+model.pretrain(dataset, n_epochs=10)
+model.learn(total_timesteps=1000)
 model.save("ppo2_intelligent_vehicle")
 
-generate_expert_traj(model, 'expert_intelligent_vehicle', n_timesteps=int(1500), n_episodes=3)
+generate_expert_traj(model, 'expert_intelligent_vehicle', n_timesteps=int(1000), n_episodes=10)
 
 del model
 
