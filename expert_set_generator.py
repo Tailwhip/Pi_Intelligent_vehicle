@@ -110,8 +110,8 @@ finally:
     o = npzfile['obs']
     t = npzfile['episode_starts']
 
-    for k in npzfile.iterkeys():
-        print(k)
+    #for k in npzfile.iterkeys():
+     #   print(k)
 
     # print('actions: {}'.format(a))
     # print('episode_returns: {}'.format(e))
@@ -119,8 +119,26 @@ finally:
     # print('obs: {}'.format(o))
     # print('episode_starts: {}'.format(t))
 
-    # print('actions1: \n {} \n {} \nactions2: \n {} \n {}'.format(a, np.shape(a), actions, np.shape(actions)))
-    # print('episode_returns1: \n {} \n {} \nepisode_returns2: \n {} \n {}'.format(e, np.shape(e), episode_returns, np.shape(episode_returns)))
-    # print('rewards1: \n {} \n {} \nrewards2: \n {} \n {}'.format(r, np.shape(r), rewards, np.shape(rewards)))
-    # print('obs1: \n {} \n {} \nobs2: \n {} \n {}'.format(o, np.shape(o), obs, np.shape(obs)))
-    # print('episode_starts1: \n {} \n {} \nepisode_starts2: \n {} \n {}'.format(t, np.shape(t), episode_starts, np.shape(episode_starts)))
+    # print('actions1: \n {} \n {} \n {} '.format(a, np.shape(a), np.size(a)))
+    # print('episode_returns1: \n {} \n {} \n {} '.format(e, np.shape(e), np.size(e)))
+    # print('rewards1: \n {} \n {} \n {} '.format(r, np.shape(r), np.size(r)))
+    # print('obs1: \n {} \n {} \n {} '.format(o, np.shape(o), np.size(o)))
+    # print('episode_starts1: \n {} \n {} \n {} '.format(t, np.shape(t), np.size(t)))
+'''
+    npzfile = np.load('expert_intelligent_vehicle-specimen.npz')
+
+    a = npzfile['actions']
+    e = npzfile['episode_returns']
+    r = npzfile['rewards']
+    o = npzfile['obs']
+    t = npzfile['episode_starts']
+
+    # print('actions2: \n {} \n {} \n {} '.format(a, np.shape(a), np.size(a)))
+    # print('episode_returns2: \n {} \n {} \n {} '.format(e, np.shape(e), np.size(e)))
+    # print('rewards2: \n {} \n {} \n {} '.format(r, np.shape(r), np.size(r)))
+    # print('obs2: \n {} \n {} \n {} '.format(o, np.shape(o), np.size(o)))
+    # print('episode_starts2: \n {} \n {} \n {} '.format(t, np.shape(t), np.size(t)))
+
+    #for k in npzfile.iterkeys():
+     #   print(k)
+'''

@@ -1,3 +1,5 @@
 build
 gym-intelligent_vehicle/venv
 gym-intelligent_vehicle/intelligent_vehicle.egg-info
+.idea
+venv
