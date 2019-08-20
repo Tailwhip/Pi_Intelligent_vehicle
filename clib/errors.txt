@@ -1,3 +1,8 @@
-Error: "Can't lock /var/run/pigpio.pid" Solution:https://raspberrypi.stackexchange.com/questions/38644/pigpio-cant-lock-var-run-pigpio-pid
-							http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library
+Error: "Can't lock /var/run/pigpio.pid" 	Solution:https://raspberrypi.stackexchange.com/questions/38644/pigpio-cant-lock-var-run-pigpio-pid
+							 http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library
+							 restart Pi
+Error: "Error.  Errno is: 121" 			Solution: Error suggesting problem lookig for address to connect.
+							  It appeared because wiringPi lib supports only no. 1 i2c BUS and
+							  Accelerometer was connected to the no. 0 i2c BUS so the wiringPi lib 
+							  didn't see the connection. Reconnection to the BUS no. 1 worked.
 							

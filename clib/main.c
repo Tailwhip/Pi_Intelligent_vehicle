@@ -12,7 +12,7 @@ float randfloat(float a) {
 
 int main() {
 
-    //svSetup();
+    svSetup();
     intSetup();
     usSetup();
     accSetup();

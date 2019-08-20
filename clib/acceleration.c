@@ -26,10 +26,9 @@ float accGetAccX() {
 	__s32 result;
 	float acc;
 	float normAcc;
-		
+	usleep(2000);
 	result = wiringPiI2CReadReg16(fd, OUTX_H) & wiringPiI2CReadReg16(fd, OUTX_L);
-	if(result < 0)
-	{
+	if(result < 0) {
 		printf("Error.  Errno is: %d \n", errno);
 	}
 	
@@ -43,7 +42,7 @@ float accGetAccY() {
 	__s32 result;
 	float acc;
 	float normAcc;
-		
+	usleep(2000);
 	result = wiringPiI2CReadReg16(fd, OUTY_H) & wiringPiI2CReadReg16(fd, OUTY_L);
 	if(result < 0)
 	{

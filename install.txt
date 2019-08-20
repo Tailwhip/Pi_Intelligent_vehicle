@@ -1,4 +1,10 @@
+Updating Pi:
 sudo apt-get update
 sudo apt-get dist-upgrade
 sudo rpi-update
 sudo apt-get install python-smbus i2c-tools
+
+Testing clib:
+$ sudo make
+$ sudo ./myprog
+
