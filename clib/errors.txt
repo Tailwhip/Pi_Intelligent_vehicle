@@ -1,0 +1,3 @@
+Error: "Can't lock /var/run/pigpio.pid" Solution:https://raspberrypi.stackexchange.com/questions/38644/pigpio-cant-lock-var-run-pigpio-pid
+							http://abyz.me.uk/rpi/pigpio/faq.html#Cant_initialise_pigpio_library
+							

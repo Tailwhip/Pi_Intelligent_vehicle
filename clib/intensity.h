@@ -2,8 +2,10 @@
 #define INTENSITY_H
 
 //Define some constants from the datasheet
-#define DEVICE_0				    0x23 // Default device I2C address whith ADDR non set
-#define DEVICE_1				    0x5c // Default device I2C address whith ADDR set
+#define DEVICE_0				    0x23 // Default device I2C address 
+										 //	with ADDR non set
+#define DEVICE_1				    0x5c // Default device I2C address 
+										 //	with ADDR set
 #define POWER_DOWN					0x00 // No active state
 #define POWER_ON				    0x01 // Power on
 #define RESET       				0x07 // Reset data register value
