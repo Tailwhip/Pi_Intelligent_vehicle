@@ -25,7 +25,7 @@ https://stable-baselines.readthedocs.io/en/master/guide/install.html
 
 $ sudo apt-get update
 $ sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev
-$ pip3 install stable-baselines
+$ sudo pip3 install stable-baselines
 
 	ERRORS:
 	"importing the numpy c-extensions failed":
@@ -43,4 +43,8 @@ $ pip3 install stable-baselines
 		wget https://bootstrap.pypa.io/get-pip.py
 		python get-pip.py
 		python3 get-pip.py
+
+	If stucked on some package (e.g. pandas) install it manually
+
+
 		
