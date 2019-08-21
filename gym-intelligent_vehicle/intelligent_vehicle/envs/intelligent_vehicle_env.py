@@ -3,13 +3,31 @@ from gym import spaces
 import numpy as np
 import random
 
+import ultrasonic as us
+import intensity as int
+import acceleration as acc
+import servo as sv
+
+while True:
+    print("US: {} {} {} {} {} | INT: {} {} {} {} | ACC: {} {}".format(us.getDistance(1), us.getDistance(2),
+    us.getDistance(3), us.getDistance(4), us.getDistance(5), int.getIntensity(1), int.getIntensity(2),
+    int.getIntensity(3), int.getIntensity(4), acc.getAccX(), acc.getAccY()))
+    sv.ride(0.1355)
+    sv.turn(0.4658)
+
 
 class IntelligentVehicleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
         super(IntelligentVehicleEnv, self).__init__()
-
+        
+        # initialise sensors
+        us.setup()
+        int.setup()
+        sv.setup()
+        acc.setup()
+        
         # set the reward range
         # self.reward_range(0, 1)
 

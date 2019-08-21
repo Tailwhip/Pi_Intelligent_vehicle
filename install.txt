@@ -4,7 +4,43 @@ sudo apt-get dist-upgrade
 sudo rpi-update
 sudo apt-get install python-smbus i2c-tools
 
-Testing clib:
+build clib (for testing):
+$ cd ../clib
 $ sudo make
 $ sudo ./myprog
 
+Build pylib:
+$ cd ../pylib
+$ python3 setup.py build_ext --inplace
+
+Build gym-intelligent_vehicle
+$ cd ../gym-intelligent_vehicle
+$ pip3 install -e .
+
+Gym:
+$ pip3 install gym
+
+Stable-baselines:
+https://stable-baselines.readthedocs.io/en/master/guide/install.html
+
+$ sudo apt-get update
+$ sudo apt-get install cmake libopenmpi-dev python3-dev zlib1g-dev
+$ pip3 install stable-baselines
+
+	ERRORS:
+	"importing the numpy c-extensions failed":
+		1. Reinstall numpy:
+			pip3 uninstall numpy
+			sudo apt install libatlas3-base
+			sudo apt-get install python3-numpy
+			sudo apt-get install python3-matplotlib
+		2. 
+
+	"TypeError: unsupported operand type(s) for -=: 'Retry' and 'int'":
+		https://stackoverflow.com/questions/37495375/python-pip-install-throws-typeerror-unsupported-operand-types-for-retry
+		
+		apt-get remove python-pip python3-pip
+		wget https://bootstrap.pypa.io/get-pip.py
+		python get-pip.py
+		python3 get-pip.py
+		
