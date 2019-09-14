@@ -19,10 +19,10 @@ void intSetup() {
 	fd_2 = i2cOpen(1, DEVICE_1, 0);
 	fd_3 = i2cOpen(0, DEVICE_0, 0);
 	fd_4 = i2cOpen(0, DEVICE_1, 0);
-	i2cWriteByte(fd_1, CONTINUOUS_LOW_RES_MODE);
-	i2cWriteByte(fd_2, CONTINUOUS_LOW_RES_MODE);
-	i2cWriteByte(fd_3, CONTINUOUS_LOW_RES_MODE);
-	i2cWriteByte(fd_4, CONTINUOUS_LOW_RES_MODE);
+	i2cWriteByte(fd_1, CONTINUOUS_HIGH_RES_MODE_1);
+	i2cWriteByte(fd_2, CONTINUOUS_HIGH_RES_MODE_1);
+	i2cWriteByte(fd_3, CONTINUOUS_HIGH_RES_MODE_1);
+	i2cWriteByte(fd_4, CONTINUOUS_HIGH_RES_MODE_1);
 }
 
 void intClose() {
@@ -73,7 +73,7 @@ float intCountIntensity(int fd, int device) {
 	float intensity;
 
 	usleep(INT_DELAY);
-	result = i2cReadWordData(fd, device);
+	result = i2cReadByte(fd);
 	
 	intensity = (float)result / MAX_INTENSITY;
 

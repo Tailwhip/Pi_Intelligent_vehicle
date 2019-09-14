@@ -5,6 +5,8 @@
 #include "intensity.h"
 #include "acceleration.h"
 #include "servo.h"
+#include "led.h"
+
 
 float randfloat(float a) {
    return (float)rand()/(float)(RAND_MAX/a);
@@ -12,17 +14,21 @@ float randfloat(float a) {
 
 int main() {
 
-    svSetup();
+    //svSetup();
     intSetup();
-    usSetup();
-    accSetup();
+    //usSetup();
+    //accSetup();
+    ledSetup();
     
     int i = 0;
     while (i == 0) {
         
-        printf("US: %f %f %f %f %f \n", usGetDistance(1),
-        usGetDistance(2), usGetDistance(3), usGetDistance(4),
-        usGetDistance(5));
+        printf("INT: %f \n", intGetIntensity(1));
+        
+        ledPingRed();
+        //US: %f %f %f %f %f \n", usGetDistance(1),
+        //usGetDistance(2), usGetDistance(3), usGetDistance(4),
+        //usGetDistance(5));
                 
         //INT: %f %f %f %f         
         //intGetIntensity(1), intGetIntensity(2), intGetIntensity(3),

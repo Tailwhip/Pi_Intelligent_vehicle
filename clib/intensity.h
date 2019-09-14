@@ -10,7 +10,7 @@
 #define POWER_ON				    0x01 // Power on
 #define RESET       				0x07 // Reset data register value
 
-// Start measurement at 4lx resolution. Time typically 16 ms.
+// Start measurement at 4 lx resolution. Time typically 16 ms.
 #define CONTINUOUS_LOW_RES_MODE    	0x13
 // Start measurement at 1 lx resolution. Time typically 120 ms
 #define CONTINUOUS_HIGH_RES_MODE_1 	0x10
@@ -22,12 +22,12 @@
 // Start measurement at 0.5 lx resolution. Time typically 120 ms
 // Device is automatically set to Power Down after measurement.
 #define ONE_TIME_HIGH_RES_MODE_2   	0x21
-// Start measurement at 1lx resolution. Time typically 120 ms
+// Start measurement at 1 lx resolution. Time typically 120 ms
 // Device is automatically set to Power Down after measurement.
 #define ONE_TIME_LOW_RES_MODE      	0x23
 // Maximum intensity value:
-#define MAX_INTENSITY              	65535 // 65280 // 63237
-#define INT_DELAY					25000 // [us]
+#define MAX_INTENSITY              	255 //65535 // 65280 // 63237
+#define INT_DELAY					200000 //16000 // 25000 // [us]
 
 
 void intSetup(void);
