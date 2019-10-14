@@ -11,13 +11,17 @@ void ledSetup() {
 
 void ledPingGreen() {
 	digitalWrite(GREEN, HIGH);
-	delayMicroseconds(LED_DELAY);
-	digitalWrite(GREEN, LOW);
+    delay(LED_DELAY);
+    //printf("PING GREEN \n");
+    digitalWrite(GREEN, LOW);
+    delay(LED_DELAY);
 }
 
 void ledPingRed() {
 	digitalWrite(RED, HIGH);
-	delayMicroseconds(LED_DELAY);
-	digitalWrite(RED, LOW);
+    delay(LED_DELAY);
+    //printf("PING RED \n");
+    digitalWrite(RED, LOW);
+    delay(LED_DELAY);
 }
 

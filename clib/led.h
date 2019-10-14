@@ -1,7 +1,7 @@
 #ifndef LED_H
 #define LED_H
 
-#define LED_DELAY	200000 // [us]
+#define LED_DELAY	500 // [us]
 #define GREEN	28
 #define RED		29
 

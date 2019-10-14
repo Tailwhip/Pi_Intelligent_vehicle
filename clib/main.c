@@ -7,6 +7,8 @@
 #include "servo.h"
 #include "led.h"
 
+#include <wiringPi.h>
+
 
 float randfloat(float a) {
    return (float)rand()/(float)(RAND_MAX/a);
@@ -15,17 +17,17 @@ float randfloat(float a) {
 int main() {
 
     //svSetup();
-    intSetup();
+    //intSetup();
     //usSetup();
     //accSetup();
     ledSetup();
-    
     int i = 0;
     while (i == 0) {
         
-        printf("INT: %f \n", intGetIntensity(1));
+        //printf("INT: %f \n", intGetIntensity(1));
         
-        ledPingRed();
+        ledPingRed();        
+        //ledPingGreen();
         //US: %f %f %f %f %f \n", usGetDistance(1),
         //usGetDistance(2), usGetDistance(3), usGetDistance(4),
         //usGetDistance(5));
@@ -36,7 +38,6 @@ int main() {
         
         //ACC: %f %f
         //accGetAccX(), accGetAccY());
-
         /*
         svRide(randfloat(1));
         svRide(randfloat(-1));
