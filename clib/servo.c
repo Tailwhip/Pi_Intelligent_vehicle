@@ -23,6 +23,9 @@ void svRide(float quality) {
 	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier);
 	
 	time_sleep(DRIVE_TIME);
+	
+	gpioServo(RIGHT_WHEEL, MID_WIDTH);
+	gpioServo(LEFT_WHEEL, MID_WIDTH);
 }
 
 void svTurn(float quality) {
@@ -35,4 +38,7 @@ void svTurn(float quality) {
 	gpioServo(LEFT_WHEEL, MID_WIDTH + (int)multiplier);
 	
 	time_sleep(DRIVE_TIME);
+	
+	gpioServo(RIGHT_WHEEL, MID_WIDTH);
+	gpioServo(LEFT_WHEEL, MID_WIDTH);
 };

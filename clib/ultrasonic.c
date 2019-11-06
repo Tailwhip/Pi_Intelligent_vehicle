@@ -56,6 +56,62 @@ float usCountDistance(int trig, int echo) {
 	float distance = 0;
 	
 	while (travelTime == 0) {
+		int TIMER = 200000;
+		shoot(trig);
+		//Wait for echo start
+		while(digitalRead(echo) == LOW) {
+			//Wait for echo end
+			startTime = micros();
+			TIMER--;
+			if (TIMER == 0) {
+				//TIMER = 20000;		
+
+				//shoot(trig);
+				break;
+			}
+		}
+		
+		if (travelTime == 0) {
+			pinMode(echo, OUTPUT);
+			digitalWrite(echo, LOW);
+			delayMicroseconds(200);
+			pinMode(echo, INPUT);
+			//printf("TU STOJĘ! \n");
+		}
+		
+		while(digitalRead(echo) == HIGH)
+			travelTime = micros() - startTime;
+						
+		//Get distance in cm
+		distance = (float)travelTime / 58;
+
+		if (((distanceOld - distance) * (distanceOld - distance) > 50) 
+		&& firstTimer == 0)
+			continue;
+		else if (firstTimer == 1)
+			firstTimer = 0;
+
+		distanceOld = distance;
+	}
+	distance = clamp(distance, 0.0, 50.0);
+	distance = (distance / 50.0);
+	
+	return distance;
+}
+
+void shoot(int _trig) {
+	//Send trig pulse
+	digitalWrite(_trig, HIGH);
+	delayMicroseconds(US_DELAY);
+	digitalWrite(_trig, LOW);
+}
+
+/*
+ *long travelTime = 0;
+	long startTime = 0;
+	float distance = 0;
+	
+	while (travelTime == 0) {
 		int TIMER = 2;
 		//Send trig pulse
 		digitalWrite(trig, HIGH);
@@ -92,4 +148,4 @@ float usCountDistance(int trig, int echo) {
 	distance = (distance / 50.0);
 	
 	return distance;
-}
+*/

@@ -16,7 +16,7 @@
 #define TRIG_5		5
 #define ECHO_5		12
 
-#define US_DELAY	0.01
+#define US_DELAY	10 // 0.01
 
 extern int distanceOld;
 extern int firstTimer;
@@ -28,5 +28,7 @@ void usSensSetup(int trig, int echo);
 float usGetDistance(int sensNum);
 
 float usCountDistance(int trig, int echo);
+
+void shoot(int _trig);
 
 #endif
