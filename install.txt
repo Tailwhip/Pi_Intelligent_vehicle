@@ -1,8 +1,13 @@
+usefull:
+$ gpio readall
+$ sudo i2cdetect -y 0
+$ sudo i2cdetect -y 1
+
 Updating Pi:
-sudo apt-get update
-sudo apt-get dist-upgrade
-sudo rpi-update
-sudo apt-get install python-smbus i2c-tools
+$ sudo apt-get update
+$ sudo apt-get dist-upgrade
+$ sudo rpi-update
+$ sudo apt-get install python-smbus i2c-tools
 
 build clib (for testing):
 $ cd ../clib
@@ -12,12 +17,22 @@ $ sudo ./myprog
 Build pylib:
 $ cd ../pylib
 $ python3 setup.py build_ext --inplace
+$ sudo python3 main.py
 
 Build gym-intelligent_vehicle
 $ cd ../gym-intelligent_vehicle
 $ pip3 install -e .
 
+Tensorflow:
+$ sudo apt install libatlas-base-dev
+$ pip3 install tensorflow
+
 Gym:
+$ git clone https://github.com/openai/gym.git
+$ cd gym
+$ sudo pip install -e .
+
+
 $ pip3 install gym
 
 Stable-baselines:
@@ -45,6 +60,8 @@ $ sudo pip3 install stable-baselines
 		python3 get-pip.py
 
 	If stucked on some package (e.g. pandas) install it manually
+
+	
 
 
 		

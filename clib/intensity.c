@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <pigpio.h>
+#include <math.h>
 #include "intensity.h"
 
 int fd_1, fd_2, fd_3, fd_4;
@@ -11,10 +12,6 @@ int fd_1, fd_2, fd_3, fd_4;
 void intSetup() {
 	if (gpioInitialise() < 0) 
 		printf("Light sensor problem - can't initialise! \n");
-	//fd_0 = wiringPiI2CSetup(DEVICE_0);
-	//fd_1 = wiringPiI2CSetup(DEVICE_1);
-	//wiringPiI2CWrite(fd_0, CONTINUOUS_LOW_RES_MODE);
-	//wiringPiI2CWrite(fd_1, CONTINUOUS_LOW_RES_MODE);
 	fd_1 = i2cOpen(1, DEVICE_0, 0);
 	fd_2 = i2cOpen(1, DEVICE_1, 0);
 	fd_3 = i2cOpen(0, DEVICE_0, 0);
@@ -51,23 +48,6 @@ float intGetIntensity(int sensNum) {
 	}
 }
 
-float intCountIntensity12(int fd) {
-	int result;
-	float intensity;
-
-	//wiringPiI2CWrite(fd, CONTINUOUS_LOW_RES_MODE);
-	usleep(INT_DELAY);
-	result = wiringPiI2CReadReg16(fd, 0x00);
-	
-	intensity = (float)result / MAX_INTENSITY;
-
-	if(intensity == -1) {
-		printf("Error.  Errno is: %d \n", errno);
-	}
-
-	return intensity;
-}
-
 float intCountIntensity(int fd, int device) {
 	int result;
 	float intensity;
@@ -81,5 +61,5 @@ float intCountIntensity(int fd, int device) {
 		printf("Error.  Errno is: %d \n", errno);
 	}
 	
-	return intensity;
+	return intensity;//(log(intensity)/log(110))
 }

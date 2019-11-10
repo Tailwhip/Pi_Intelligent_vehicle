@@ -27,7 +27,7 @@
 #define ONE_TIME_LOW_RES_MODE      	0x23
 // Maximum intensity value:
 #define MAX_INTENSITY              	255 //65535 // 65280 // 63237
-#define INT_DELAY					200000 //16000 // 25000 // [us]
+#define INT_DELAY					2000//200000 //16000 // 25000 // [us]
 
 
 void intSetup(void);
@@ -35,8 +35,6 @@ void intSetup(void);
 void intClose(void);
 
 float intGetIntensity(int sensNum);
-
-float intCountIntensity12(int fd);
 
 float intCountIntensity(int fd, int device);
 

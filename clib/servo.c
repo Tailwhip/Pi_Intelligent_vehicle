@@ -14,7 +14,7 @@ void svSetup(void) {
 }
 
 void svRide(float quality) {
-	printf("Ride %f \n", quality);
+	//printf("Ride %f \n", quality);
 	
 	quality = clamp(quality, -1, 1);
 	float multiplier = 500 * quality;
@@ -29,7 +29,7 @@ void svRide(float quality) {
 }
 
 void svTurn(float quality) {
-	printf("Turn %f \n", quality);
+	//printf("Turn %f \n", quality);
 	
 	quality = clamp(quality, -1, 1);
 	float multiplier = 500 * quality;

@@ -36,3 +36,12 @@ extension = Extension(
 
 setup(ext_modules=cythonize([extension])
 )
+
+extension = Extension(
+    name="led",
+    libraries=['wiringPi'],
+    sources=["led.pyx", "../clib/led.c"]
+)
+
+setup(ext_modules=cythonize([extension])
+)

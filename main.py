@@ -20,19 +20,19 @@ if __name__ == "__main__":
     env = DummyVecEnv([lambda: env])
 
     model = PPO2('MlpPolicy', env, verbose=1)
-    model.pretrain(dataset, n_epochs=10)
+    model.pretrain(dataset, n_epochs=3)
     model.learn(total_timesteps=1000)
     model.save("ppo2_intelligent_vehicle")
 
     generate_expert_traj(model, 'expert_intelligent_vehicle', n_timesteps=int(1000), n_episodes=10)
 
     # remove to demonstrate saving and loading
-    del model
+    #del model
 
     model = PPO2.load("ppo2_intelligent_vehicle")
 
     obs = env.reset()
-    for i in range(100):
+    for i in range(1000):
         action, _states = model.predict(obs)
         obs, rewards, done, info = env.step(action)
         env.render()

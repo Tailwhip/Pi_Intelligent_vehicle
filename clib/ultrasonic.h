@@ -1,7 +1,7 @@
 #ifndef ULTRASONIC_H
 #define ULTRASONIC_H
 
-#define TRIG_1		7
+#define TRIG_1		21//7
 #define ECHO_1		15
 
 #define TRIG_2		16

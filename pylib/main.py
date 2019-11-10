@@ -2,11 +2,13 @@ import ultrasonic as us
 import intensity as int
 import acceleration as acc
 import servo as sv
+import led
 
 us.setup()
 int.setup()
 sv.setup()
 acc.setup()
+led.setup()
 
 while True:
     print("US: {} {} {} {} {} | INT: {} {} {} {} | ACC: {} {}".format(us.getDistance(1), us.getDistance(2),
@@ -14,3 +16,7 @@ while True:
     int.getIntensity(3), int.getIntensity(4), acc.getAccX(), acc.getAccY()))
     sv.ride(0.1355)
     sv.turn(0.4658)
+    #led.ping_red()
+    #led.ping_green()
+    
+    
