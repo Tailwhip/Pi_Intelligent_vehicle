@@ -25,10 +25,17 @@
 // Start measurement at 1 lx resolution. Time typically 120 ms
 // Device is automatically set to Power Down after measurement.
 #define ONE_TIME_LOW_RES_MODE      	0x23
-// Maximum intensity value:
-#define MAX_INTENSITY              	255 //65535 // 65280 // 63237
-#define INT_DELAY					2000//200000 //16000 // 25000 // [us]
 
+#define ONE_TIME_LOW_RES_DELAY_S       0.018
+#define ONE_TIME_HIGH_RES_1_DELAY_S    0.14
+#define ONE_TIME_HIGH_RES_2_DELAY_S    0.14
+#define CONTINUOUS_LOW_RES_DELAY_S     0.016
+#define CONTINUOUS_HIGH_RES_1_DELAY_S  0.05//0.12
+#define CONTINUOUS_HIGH_RES_2_DELAY_S  0.12
+
+// Maximum intensity value:
+#define MAX_INTENSITY              	65535 // 65280 // 63237
+#define INT_DELAY					2000//200000 //16000 // 25000 // [us]
 
 void intSetup(void);
 
@@ -36,6 +43,6 @@ void intClose(void);
 
 float intGetIntensity(int sensNum);
 
-float intCountIntensity(int fd, int device);
+float intCountIntensity(int fd);
 
 #endif

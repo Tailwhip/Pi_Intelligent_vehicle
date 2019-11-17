@@ -20,7 +20,8 @@ if __name__ == "__main__":
     env = DummyVecEnv([lambda: env])
 
     model = PPO2('MlpPolicy', env, verbose=1)
-    model.pretrain(dataset, n_epochs=3)
+    model.pretrain(dataset, n_epochs=20)
+    model.save("ppo2_intelligent_vehicle")
     model.learn(total_timesteps=1000)
     model.save("ppo2_intelligent_vehicle")
 

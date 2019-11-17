@@ -9,7 +9,8 @@
 #define MID_WIDTH 				1500
 #define CLOCKWISE_WIDTH 		2000
 
-#define DRIVE_TIME		 		0.2
+#define DRIVE_TIME		 		0.10
+#define TURN_TIME		 		0.15
 
 void svSetup(void);
 

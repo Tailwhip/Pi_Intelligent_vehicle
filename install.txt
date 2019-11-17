@@ -2,6 +2,7 @@ usefull:
 $ gpio readall
 $ sudo i2cdetect -y 0
 $ sudo i2cdetect -y 1
+$ ping raspberrypi.local - check IP address
 
 Updating Pi:
 $ sudo apt-get update

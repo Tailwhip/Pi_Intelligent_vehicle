@@ -19,15 +19,19 @@
 #define OUTX_H			0x29
 #define OUTY_L			0x2A
 #define OUTY_H			0x2B
+#define OUTZ_L			0x2C
+#define OUTZ_H			0x2D
 
-
-#define MAX_ACC 		65280
+#define DELAY			2000
+#define MAX_ACC 		10//65535//65280
 
 void accSetup(void);
 
 float accGetAccX(void);
 
 float accGetAccY(void);
+
+float accGetAccZ(void);
 
 float accAccDerivative(float acc);
 

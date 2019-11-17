@@ -75,10 +75,6 @@ class IntelligentVehicleEnv(gym.Env):
         self.distance = self.us_left + self.us_center_left + self.us_center + self.us_center_right + self.us_right
 
 # ----------------------------------------------------------------------------------------------------------------------
-    def clip(self, value, lower, upper):
-        return lower if value < lower else upper if value > upper else value
-    
-# ----------------------------------------------------------------------------------------------------------------------
     def _get_obs(self):
         # distance sensors
         self.us_left = us.getDistance(1);
@@ -91,29 +87,29 @@ class IntelligentVehicleEnv(gym.Env):
         self.acc_Y = acc.getAccY()
         # light intensity sensors
         int1 = int.getIntensity(1)
-        int2 = int.getIntensity(1)
-        int3 = int.getIntensity(1)
-        int4 = int.getIntensity(1)
+        int2 = int.getIntensity(2)
+        int3 = int.getIntensity(3)
+        int4 = int.getIntensity(4)
         
         if int1 <= 0:
             self.int_front_left = int1
         else:
-            self.int_front_left = (log(int1, 110.0) + 1.178796054)
+            self.int_front_left = np.clip((log(int1, 110.0) + 1.178796054) * 2.4, 0.0, 1.0)
             
         if int2 <= 0:
             self.int_front_right = int2
         else:
-            self.int_front_right = (log(int2, 110.0) + 1.178796054)
+            self.int_front_right = np.clip((log(int2, 110.0) + 1.178796054) * 2.4, 0.0, 1.0)
             
         if int3 <= 0:
             self.int_back_left = int3
         else:
-            self.int_back_left = (log(int3, 110.0) + 1.178796054)
+            self.int_back_left = np.clip((log(int3, 110.0) + 1.178796054) * 2.4, 0.0, 1.0)
             
         if int4 <= 0:
             self.int_back_right = int4
         else:
-            self.int_back_right = (log(int4, 110.0) + 1.178796054)
+            self.int_back_right = np.clip((log(int4, 110.0) + 1.178796054) * 2.4, 0.0, 1.0)
 
         obs = np.append(np.empty(0), [self.us_left, self.us_center_left, self.us_center,
                                       self.us_center_right, self.us_right, self.acc_X, self.acc_Y,
@@ -135,8 +131,18 @@ class IntelligentVehicleEnv(gym.Env):
         sv.ride(-1)
         sv.ride(-1)
         sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
+        sv.ride(-1)
         print('Go backward for a bit')
         self.collision = 0
+        self.intensity_old = 0
         return self._get_obs()
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -153,7 +159,7 @@ class IntelligentVehicleEnv(gym.Env):
                 reward -= 0.05
             else:
                 reward += 0.03
-                self.intensity_old = self.intensity
+            self.intensity_old = self.intensity
 
         if self.intensity > 3.5:
             led.ping_green()
@@ -162,12 +168,12 @@ class IntelligentVehicleEnv(gym.Env):
             reward = 1
             done = True
 
-        if (self.us_left<= 0.2) or (self.us_center_left<= 0.2) or (self.us_center<= 0.2) or (self.us_center_right<= 0.2) or (self.us_right <= 0.2):
+        if (self.us_left<= 0.3) or (self.us_center_left<= 0.2) or (self.us_center<= 0.2) or (self.us_center_right<= 0.2) or (self.us_right <= 0.2):
             self.collision += 1
         else:
             self.collision = 0
         
-        if self.collision == 3:
+        if self.collision == 2:
             led.ping_red()
             led.ping_red()
             led.ping_red()
@@ -186,4 +192,4 @@ class IntelligentVehicleEnv(gym.Env):
         print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {} int1: {} | int2: {} | int3: {} | int4: {} | accX: {} | accY: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right, self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right, self.acc_X, self.acc_Y))
         #print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
         #print('acc1: {} | accY: {} \n'.format(self.acc_X, self.acc_Y))
-        print('Collision: {} | Intensity: {}'.format(self.collision, self.intensity))
+        print('Collision: {} | Intensity: {} | Delta: {}'.format(self.collision, self.intensity, self.delta_intensity))
