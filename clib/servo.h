@@ -14,8 +14,12 @@
 
 void svSetup(void);
 
-void svRide(float quality);
+void svRide(float q0, float q1);
+
+void svForward(float quality);
 
 void svTurn(float quality);
+
+void svStop(void);
 
 #endif

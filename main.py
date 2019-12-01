@@ -8,6 +8,7 @@ from stable_baselines.gail import ExpertDataset
 from stable_baselines import PPO2
 from multiprocessing import freeze_support
 
+import led
 import intelligent_vehicle
 
 if __name__ == "__main__":
@@ -20,21 +21,27 @@ if __name__ == "__main__":
     env = DummyVecEnv([lambda: env])
 
     model = PPO2('MlpPolicy', env, verbose=1)
-    model.pretrain(dataset, n_epochs=20)
-    model.save("ppo2_intelligent_vehicle")
-    model.learn(total_timesteps=1000)
-    model.save("ppo2_intelligent_vehicle")
-
+    #model.pretrain(dataset, n_epochs=2000)
+    #model.save("ppo2_intelligent_vehicle")
+    
+    for _ in range(10):
+        print("Learning...")
+        model.learn(total_timesteps=1000)
+        print("Saving model...")
+        model.save("ppo2_intelligent_vehicle")
+    
+    print("Generating expert trajectories...")
     generate_expert_traj(model, 'expert_intelligent_vehicle', n_timesteps=int(1000), n_episodes=10)
 
     # remove to demonstrate saving and loading
     #del model
-
+    print("Loading model...")
     model = PPO2.load("ppo2_intelligent_vehicle")
 
+    print("FREERIDEEEEEEEEEEEEEEEEEEEEEEEEEEE...")
     obs = env.reset()
     for i in range(1000):
+        led.ping_green()
         action, _states = model.predict(obs)
         obs, rewards, done, info = env.step(action)
-        env.render()
     env.close()

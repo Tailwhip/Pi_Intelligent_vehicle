@@ -891,6 +891,18 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 #define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
@@ -1021,38 +1033,51 @@ extern int __pyx_module_is_main_servo;
 int __pyx_module_is_main_servo = 0;
 
 /* Implementation of 'servo' */
+static const char __pyx_k_q0[] = "_q0";
+static const char __pyx_k_q1[] = "_q1";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_ride[] = "ride";
+static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_turn[] = "turn";
 static const char __pyx_k_servo[] = "servo";
 static const char __pyx_k_setup[] = "setup";
+static const char __pyx_k_forward[] = "forward";
 static const char __pyx_k_quality[] = "_quality";
 static const char __pyx_k_servo_pyx[] = "servo.pyx";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static PyObject *__pyx_n_s_cline_in_traceback;
+static PyObject *__pyx_n_s_forward;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
+static PyObject *__pyx_n_s_q0;
+static PyObject *__pyx_n_s_q1;
 static PyObject *__pyx_n_s_quality;
 static PyObject *__pyx_n_s_ride;
 static PyObject *__pyx_n_s_servo;
 static PyObject *__pyx_kp_s_servo_pyx;
 static PyObject *__pyx_n_s_setup;
+static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_turn;
 static PyObject *__pyx_pf_5servo_setup(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality); /* proto */
-static PyObject *__pyx_pf_5servo_4turn(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality); /* proto */
+static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__q0, PyObject *__pyx_v__q1); /* proto */
+static PyObject *__pyx_pf_5servo_4forward(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality); /* proto */
+static PyObject *__pyx_pf_5servo_6turn(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality); /* proto */
+static PyObject *__pyx_pf_5servo_8stop(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_codeobj_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__4;
+static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_codeobj__3;
 static PyObject *__pyx_codeobj__5;
+static PyObject *__pyx_codeobj__7;
+static PyObject *__pyx_codeobj__8;
 /* Late includes */
 
-/* "servo.pyx":9
- *     void svTurn(float quality);
+/* "servo.pyx":13
+ *     void svStop();
  * 
  * def setup():             # <<<<<<<<<<<<<<
  *     return svSetup()
@@ -1079,22 +1104,22 @@ static PyObject *__pyx_pf_5servo_setup(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("setup", 0);
 
-  /* "servo.pyx":10
+  /* "servo.pyx":14
  * 
  * def setup():
  *     return svSetup()             # <<<<<<<<<<<<<<
  * 
- * def ride(_quality):
+ * def ride(_q0, _q1):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(svSetup()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(svSetup()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "servo.pyx":9
- *     void svTurn(float quality);
+  /* "servo.pyx":13
+ *     void svStop();
  * 
  * def setup():             # <<<<<<<<<<<<<<
  *     return svSetup()
@@ -1112,61 +1137,111 @@ static PyObject *__pyx_pf_5servo_setup(CYTHON_UNUSED PyObject *__pyx_self) {
   return __pyx_r;
 }
 
-/* "servo.pyx":12
+/* "servo.pyx":16
  *     return svSetup()
  * 
- * def ride(_quality):             # <<<<<<<<<<<<<<
- *     return svRide(_quality)
+ * def ride(_q0, _q1):             # <<<<<<<<<<<<<<
+ *     return svRide(_q0, _q1)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5servo_3ride(PyObject *__pyx_self, PyObject *__pyx_v__quality); /*proto*/
-static PyMethodDef __pyx_mdef_5servo_3ride = {"ride", (PyCFunction)__pyx_pw_5servo_3ride, METH_O, 0};
-static PyObject *__pyx_pw_5servo_3ride(PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+static PyObject *__pyx_pw_5servo_3ride(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_5servo_3ride = {"ride", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_5servo_3ride, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_5servo_3ride(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v__q0 = 0;
+  PyObject *__pyx_v__q1 = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("ride (wrapper)", 0);
-  __pyx_r = __pyx_pf_5servo_2ride(__pyx_self, ((PyObject *)__pyx_v__quality));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_q0,&__pyx_n_s_q1,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_q0)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_q1)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("ride", 1, 2, 2, 1); __PYX_ERR(0, 16, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ride") < 0)) __PYX_ERR(0, 16, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v__q0 = values[0];
+    __pyx_v__q1 = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("ride", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 16, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("servo.ride", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5servo_2ride(__pyx_self, __pyx_v__q0, __pyx_v__q1);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__q0, PyObject *__pyx_v__q1) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  float __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("ride", 0);
 
-  /* "servo.pyx":13
+  /* "servo.pyx":17
  * 
- * def ride(_quality):
- *     return svRide(_quality)             # <<<<<<<<<<<<<<
+ * def ride(_q0, _q1):
+ *     return svRide(_q0, _q1)             # <<<<<<<<<<<<<<
  * 
- * def turn(_quality):
+ * def forward(_quality):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v__quality); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_void_to_None(svRide(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v__q0); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsFloat(__pyx_v__q1); if (unlikely((__pyx_t_2 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_void_to_None(svRide(__pyx_t_1, __pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "servo.pyx":12
+  /* "servo.pyx":16
  *     return svSetup()
  * 
- * def ride(_quality):             # <<<<<<<<<<<<<<
- *     return svRide(_quality)
+ * def ride(_q0, _q1):             # <<<<<<<<<<<<<<
+ *     return svRide(_q0, _q1)
  * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("servo.ride", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1175,8 +1250,71 @@ static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObj
   return __pyx_r;
 }
 
-/* "servo.pyx":15
- *     return svRide(_quality)
+/* "servo.pyx":19
+ *     return svRide(_q0, _q1)
+ * 
+ * def forward(_quality):             # <<<<<<<<<<<<<<
+ *     return svForward(_quality)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5servo_5forward(PyObject *__pyx_self, PyObject *__pyx_v__quality); /*proto*/
+static PyMethodDef __pyx_mdef_5servo_5forward = {"forward", (PyCFunction)__pyx_pw_5servo_5forward, METH_O, 0};
+static PyObject *__pyx_pw_5servo_5forward(PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("forward (wrapper)", 0);
+  __pyx_r = __pyx_pf_5servo_4forward(__pyx_self, ((PyObject *)__pyx_v__quality));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5servo_4forward(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  float __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("forward", 0);
+
+  /* "servo.pyx":20
+ * 
+ * def forward(_quality):
+ *     return svForward(_quality)             # <<<<<<<<<<<<<<
+ * 
+ * def turn(_quality):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v__quality); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(svForward(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "servo.pyx":19
+ *     return svRide(_q0, _q1)
+ * 
+ * def forward(_quality):             # <<<<<<<<<<<<<<
+ *     return svForward(_quality)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("servo.forward", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "servo.pyx":22
+ *     return svForward(_quality)
  * 
  * def turn(_quality):             # <<<<<<<<<<<<<<
  *     return svTurn(_quality)
@@ -1184,42 +1322,43 @@ static PyObject *__pyx_pf_5servo_2ride(CYTHON_UNUSED PyObject *__pyx_self, PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5servo_5turn(PyObject *__pyx_self, PyObject *__pyx_v__quality); /*proto*/
-static PyMethodDef __pyx_mdef_5servo_5turn = {"turn", (PyCFunction)__pyx_pw_5servo_5turn, METH_O, 0};
-static PyObject *__pyx_pw_5servo_5turn(PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+static PyObject *__pyx_pw_5servo_7turn(PyObject *__pyx_self, PyObject *__pyx_v__quality); /*proto*/
+static PyMethodDef __pyx_mdef_5servo_7turn = {"turn", (PyCFunction)__pyx_pw_5servo_7turn, METH_O, 0};
+static PyObject *__pyx_pw_5servo_7turn(PyObject *__pyx_self, PyObject *__pyx_v__quality) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("turn (wrapper)", 0);
-  __pyx_r = __pyx_pf_5servo_4turn(__pyx_self, ((PyObject *)__pyx_v__quality));
+  __pyx_r = __pyx_pf_5servo_6turn(__pyx_self, ((PyObject *)__pyx_v__quality));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5servo_4turn(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality) {
+static PyObject *__pyx_pf_5servo_6turn(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__quality) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   float __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("turn", 0);
 
-  /* "servo.pyx":16
+  /* "servo.pyx":23
  * 
  * def turn(_quality):
  *     return svTurn(_quality)             # <<<<<<<<<<<<<<
  * 
+ * def stop():
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v__quality); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_void_to_None(svTurn(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v__quality); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(svTurn(__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "servo.pyx":15
- *     return svRide(_quality)
+  /* "servo.pyx":22
+ *     return svForward(_quality)
  * 
  * def turn(_quality):             # <<<<<<<<<<<<<<
  *     return svTurn(_quality)
@@ -1230,6 +1369,66 @@ static PyObject *__pyx_pf_5servo_4turn(CYTHON_UNUSED PyObject *__pyx_self, PyObj
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("servo.turn", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "servo.pyx":25
+ *     return svTurn(_quality)
+ * 
+ * def stop():             # <<<<<<<<<<<<<<
+ *     return svStop()
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5servo_9stop(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyMethodDef __pyx_mdef_5servo_9stop = {"stop", (PyCFunction)__pyx_pw_5servo_9stop, METH_NOARGS, 0};
+static PyObject *__pyx_pw_5servo_9stop(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("stop (wrapper)", 0);
+  __pyx_r = __pyx_pf_5servo_8stop(__pyx_self);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5servo_8stop(CYTHON_UNUSED PyObject *__pyx_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("stop", 0);
+
+  /* "servo.pyx":26
+ * 
+ * def stop():
+ *     return svStop()             # <<<<<<<<<<<<<<
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_void_to_None(svStop()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "servo.pyx":25
+ *     return svTurn(_quality)
+ * 
+ * def stop():             # <<<<<<<<<<<<<<
+ *     return svStop()
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("servo.stop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1284,13 +1483,17 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
+  {&__pyx_n_s_forward, __pyx_k_forward, sizeof(__pyx_k_forward), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
+  {&__pyx_n_s_q0, __pyx_k_q0, sizeof(__pyx_k_q0), 0, 0, 1, 1},
+  {&__pyx_n_s_q1, __pyx_k_q1, sizeof(__pyx_k_q1), 0, 0, 1, 1},
   {&__pyx_n_s_quality, __pyx_k_quality, sizeof(__pyx_k_quality), 0, 0, 1, 1},
   {&__pyx_n_s_ride, __pyx_k_ride, sizeof(__pyx_k_ride), 0, 0, 1, 1},
   {&__pyx_n_s_servo, __pyx_k_servo, sizeof(__pyx_k_servo), 0, 0, 1, 1},
   {&__pyx_kp_s_servo_pyx, __pyx_k_servo_pyx, sizeof(__pyx_k_servo_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_setup, __pyx_k_setup, sizeof(__pyx_k_setup), 0, 0, 1, 1},
+  {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_turn, __pyx_k_turn, sizeof(__pyx_k_turn), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -1303,38 +1506,59 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "servo.pyx":9
- *     void svTurn(float quality);
+  /* "servo.pyx":13
+ *     void svStop();
  * 
  * def setup():             # <<<<<<<<<<<<<<
  *     return svSetup()
  * 
  */
-  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_setup, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_codeobj_ = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_setup, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "servo.pyx":12
+  /* "servo.pyx":16
  *     return svSetup()
  * 
- * def ride(_quality):             # <<<<<<<<<<<<<<
- *     return svRide(_quality)
+ * def ride(_q0, _q1):             # <<<<<<<<<<<<<<
+ *     return svRide(_q0, _q1)
  * 
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_n_s_quality); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_n_s_q0, __pyx_n_s_q1); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_ride, 12, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_ride, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 16, __pyx_L1_error)
 
-  /* "servo.pyx":15
- *     return svRide(_quality)
+  /* "servo.pyx":19
+ *     return svRide(_q0, _q1)
+ * 
+ * def forward(_quality):             # <<<<<<<<<<<<<<
+ *     return svForward(_quality)
+ * 
+ */
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_quality); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_forward, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 19, __pyx_L1_error)
+
+  /* "servo.pyx":22
+ *     return svForward(_quality)
  * 
  * def turn(_quality):             # <<<<<<<<<<<<<<
  *     return svTurn(_quality)
  * 
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_quality); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_turn, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_quality); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_turn, 22, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 22, __pyx_L1_error)
+
+  /* "servo.pyx":25
+ *     return svTurn(_quality)
+ * 
+ * def stop():             # <<<<<<<<<<<<<<
+ *     return svStop()
+ * 
+ */
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_servo_pyx, __pyx_n_s_stop, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1610,40 +1834,64 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "servo.pyx":9
- *     void svTurn(float quality);
+  /* "servo.pyx":13
+ *     void svStop();
  * 
  * def setup():             # <<<<<<<<<<<<<<
  *     return svSetup()
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_1setup, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_1setup, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setup, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_setup, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "servo.pyx":12
+  /* "servo.pyx":16
  *     return svSetup()
  * 
- * def ride(_quality):             # <<<<<<<<<<<<<<
- *     return svRide(_quality)
+ * def ride(_q0, _q1):             # <<<<<<<<<<<<<<
+ *     return svRide(_q0, _q1)
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_3ride, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_3ride, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ride, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ride, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "servo.pyx":15
- *     return svRide(_quality)
+  /* "servo.pyx":19
+ *     return svRide(_q0, _q1)
+ * 
+ * def forward(_quality):             # <<<<<<<<<<<<<<
+ *     return svForward(_quality)
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_5forward, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_forward, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "servo.pyx":22
+ *     return svForward(_quality)
  * 
  * def turn(_quality):             # <<<<<<<<<<<<<<
  *     return svTurn(_quality)
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_5turn, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_7turn, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_turn, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_turn, __pyx_t_1) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "servo.pyx":25
+ *     return svTurn(_quality)
+ * 
+ * def stop():             # <<<<<<<<<<<<<<
+ *     return svStop()
+ * 
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5servo_9stop, NULL, __pyx_n_s_servo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_stop, __pyx_t_1) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "servo.pyx":1
@@ -1697,6 +1945,148 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
 
 /* PyDictVersioning */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
