@@ -29,8 +29,8 @@ void svForward(float quality) {
 	quality = clamp(quality, -1, 1);
 	float multiplier = 250 * quality;
 	svSetup();
-	gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier + 250);
-	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier - 230);
+	gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier);
+	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier);
 	time_sleep(DRIVE_TIME);
 
 }

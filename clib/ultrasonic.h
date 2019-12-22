@@ -17,6 +17,8 @@
 #define ECHO_5		12
 
 #define US_DELAY	10 // 0.01
+#define MAX_DIST	15 
+
 
 extern int distanceOld;
 extern int firstTimer;

@@ -46,15 +46,16 @@ int main() {
     
     int i = 0;
     while (i == 0) {
-        
+        /*
         for (int i = 0; i < count; i++) {
             buffer[i] = intGetIntensity(i+1);
         }
         
         writeToFile(f, buffer, count);
+        */
         
         //svStop();
-        //printf("\e[1;1H\e[2J");
+        printf("\e[1;1H\e[2J");
         //printf("INT: 1: %f | 2: %f | 3: %f | 4: %f \n", intGetIntensity(1), 
         //intGetIntensity(2), intGetIntensity(3), intGetIntensity(4));
         
@@ -62,9 +63,9 @@ int main() {
         
         //ledPingGreen();        
         
-        //printf("US: 1: %f | 2: %f | 3: %f | 4: %f | 5: %f \n", 
-        //usGetDistance(1), usGetDistance(2), usGetDistance(3),
-        //usGetDistance(4), usGetDistance(5));
+        printf("US: 1: %f | 2: %f | 3: %f | 4: %f | 5: %f \n", 
+        usGetDistance(1), usGetDistance(2), usGetDistance(3),
+        usGetDistance(4), usGetDistance(5));
         
         //printf("%+10f", accGetAccX());
         //time_sleep(0.005);
@@ -72,11 +73,10 @@ int main() {
         //printf("ACC: X:  % -1f | Y: % -1f | Z: % -1f |\n", accGetAccX(), accGetAccY(), accGetAccZ());
         //printf("ACC: X: %+1f \n", accGetAccX());
 
-        svForward(1);
-        svStop();
         //svStop();
-        //svRide(randfloat(-1));
-    
+        //svRide(1, 0);
+        //svForward(-1);
+        
         //svTurn(1);
         //svTurn(randfloat(-1));
         

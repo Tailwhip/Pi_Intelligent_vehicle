@@ -1,6 +1,6 @@
 #include <wiringPi.h>
 #include <stdio.h>
-
+#include <math.h>
 #include "ultrasonic.h"
 #include "clamp.h"
 
@@ -64,9 +64,6 @@ float usCountDistance(int trig, int echo) {
 			startTime = micros();
 			TIMER--;
 			if (TIMER == 0) {
-				//TIMER = 20000;		
-
-				//shoot(trig);
 				break;
 			}
 		}
@@ -76,7 +73,6 @@ float usCountDistance(int trig, int echo) {
 			digitalWrite(echo, LOW);
 			delayMicroseconds(200);
 			pinMode(echo, INPUT);
-			//printf("TU STOJĘ! \n");
 		}
 		
 		while(digitalRead(echo) == HIGH)
@@ -93,10 +89,10 @@ float usCountDistance(int trig, int echo) {
 
 		distanceOld = distance;
 	}
-	distance = clamp(distance, 0.0, 50.0);
-	distance = (distance / 50.0);
+	distance = clamp((distance - 4), 0.0, MAX_DIST);
+	distance = ((distance) / MAX_DIST);
 	
-	return distance;
+	return ceilf(distance * 100) / 100;
 }
 
 void shoot(int _trig) {

@@ -10,6 +10,14 @@ from multiprocessing import freeze_support
 
 import led
 import intelligent_vehicle
+import numpy as np
+
+# save np.load
+np_load_old = np.load
+
+# modify the default parameters of np.load
+np.load = lambda *a,**k: np_load_old(*a, allow_pickle=True, **k)
+
 
 if __name__ == "__main__":
     freeze_support()
@@ -24,9 +32,9 @@ if __name__ == "__main__":
     #model.pretrain(dataset, n_epochs=2000)
     #model.save("ppo2_intelligent_vehicle")
     
-    for _ in range(10):
+    for _ in range(50):
         print("Learning...")
-        model.learn(total_timesteps=1000)
+        model.learn(total_timesteps = 200)
         print("Saving model...")
         model.save("ppo2_intelligent_vehicle")
     
@@ -38,10 +46,12 @@ if __name__ == "__main__":
     print("Loading model...")
     model = PPO2.load("ppo2_intelligent_vehicle")
 
-    print("FREERIDEEEEEEEEEEEEEEEEEEEEEEEEEEE...")
+    # restore np.load for future normal usage
+    np.load = np_load_old
+
     obs = env.reset()
     for i in range(1000):
-        led.ping_green()
+        print("FREERIDEEEEEEEEEEEEEEEEEEEEEEEEEEE...")
         action, _states = model.predict(obs)
         obs, rewards, done, info = env.step(action)
     env.close()

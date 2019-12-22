@@ -27,6 +27,7 @@ class IntelligentVehicleEnv(gym.Env):
         #acc.setup()
         led.setup()
         
+        self.run_counter = 1
         self.timestamp = 0
         self.delta_time = 0
         self.time_old = time.time()
@@ -42,7 +43,8 @@ class IntelligentVehicleEnv(gym.Env):
         # self.reward_range(0, 1)
         self.riding = 'Riding'
         self.turning = 'Turning'
-        self.step_counter = 1000
+        self.max_steps = 100
+        self.step_counter = self.max_steps
         # distance sensors
         self.us_left = 0
         self.us_center_left = 0
@@ -105,30 +107,31 @@ class IntelligentVehicleEnv(gym.Env):
         #self.acc_X = acc.getAccX()
         #self.acc_Y = acc.getAccY()
         # light intensity sensors
+        
         int1 = int.getIntensity(1)
         int2 = int.getIntensity(2)
         int3 = int.getIntensity(3)
         int4 = int.getIntensity(4)
         
         if int1 <= 0:
-            self.int_front_left = int1
+            self.int_front_left = 0
         else:
-            self.int_front_left = np.clip((log(int1, 110.0) + 1.178796054) * 2.0, 0.0, 1.0)
+            self.int_front_left = round((np.clip((log(int1, 110.0) + 1.462), 0.0, 1.0)), 2)
             
         if int2 <= 0:
-            self.int_front_right = int2
+            self.int_front_right = 0
         else:
-            self.int_front_right = np.clip((log(int2, 110.0) + 1.178796054) * 2.0, 0.0, 1.0)
+            self.int_front_right = round((np.clip((log(int2, 110.0) + 1.462), 0.0, 1.0)), 2)
             
         if int3 <= 0:
-            self.int_back_left = int3
+            self.int_back_left = 0
         else:
-            self.int_back_left = np.clip((log(int3, 110.0) + 1.178796054) * 2.0, 0.0, 1.0)
+            self.int_back_left = round((np.clip((log(int3, 110.0) + 1.462), 0.0, 1.0)), 2)
             
         if int4 <= 0:
-            self.int_back_right = int4
+            self.int_back_right = 0
         else:
-            self.int_back_right = np.clip((log(int4, 110.0) + 1.178796054) * 2.0, 0.0, 1.0)
+            self.int_back_right = round((np.clip((log(int4, 110.0) + 1.462), 0.0, 1.0)), 2)
 
         obs = np.append(np.empty(0), [self.us_left, self.us_center_left, self.us_center,
                                       self.us_center_right, self.us_right, self.int_front_left, self.int_front_right,
@@ -145,12 +148,14 @@ class IntelligentVehicleEnv(gym.Env):
 
 # ----------------------------------------------------------------------------------------------------------------------
     def reset(self):
+        sv.stop()
         self.intensity_old = 0
         self.timestamp = 0
         self.delta_time = 0
         self.time_old = time.time()
         self.total_time = 0
-        self.a = 0
+        self.run_counter += 1
+        #self.step_counter = self.max_steps
         
         self.col_center = 0
         self.col_left = 0
@@ -174,15 +179,16 @@ class IntelligentVehicleEnv(gym.Env):
             self.col_center_left = 0
             self.col_center_right = 0
         
-        if self.col_center or self.col_left or self.col_right or self.col_center_left or self.col_center_right == 4:
+        if self.col_center or self.col_left or self.col_right or self.col_center_left or self.col_center_right == 6:
             led.ping_red()
             led.ping_red()
             reward = -1
             self.collision_counter += 1
             sv.ride(ride_value, turn_value)
             time.sleep(3)
-            sv.stop()
+            #sv.stop()
             done = True
+            self.reset()
 
 #----------------------------------------------------------------------------------------------------------------------
     def step(self, action):
@@ -200,7 +206,7 @@ class IntelligentVehicleEnv(gym.Env):
                 reward += 0.02
             self.intensity_old = self.intensity
 
-        if self.intensity > 3.5:
+        if self.intensity > 3.2:
             led.ping_green()
             led.ping_green()
             led.ping_green()
@@ -228,10 +234,11 @@ class IntelligentVehicleEnv(gym.Env):
         self.thread.start()
                 
         self.render()
-        self.step_counter -= 1
-        if self.step_counter == 0:
-            sv.stop;
-            self.step_counter = 1000
+        
+        #self.step_counter -= 1
+        #if self.step_counter == 0:
+        #    sv.stop()
+            
         return obs, reward, done, {}
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -244,4 +251,4 @@ class IntelligentVehicleEnv(gym.Env):
         print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
         #print('acc1: {} | accY: {} \n'.format(self.acc_X, self.acc_Y))
         #print('Coll_left: {} | Coll_center_left: {} | Coll_center: {} | Coll_center_right: {} | Coll_right: {} |'.format(self.col_left, self.col_center_left, self.col_center, self.col_center_right, self.col_right))
-        print('Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))
+        print('Run number: {} | Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.run_counter, self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))
