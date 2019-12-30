@@ -27,15 +27,26 @@ class IntelligentVehicleEnv(gym.Env):
         #acc.setup()
         led.setup()
         
-        self.run_counter = 1
-        self.timestamp = 0
-        self.delta_time = 0
-        self.time_old = time.time()
-        self.total_time = 0
+        self.run_counter = 0
+        # a variables for meassuring one frame time:
+        #self.timestamp = 0 
+        #self.delta_time = 0
+        #self.time_old = time.time()
+        #self.total_time = 0
         self.thread = threading.Thread(target = self._take_action, args=[[0,0]])
         self.thread.start()
         self.clear = lambda: os.system('clear')
         
+        # variables for counting mean reward
+        self.total_reward = 0
+        self.total_steps = 0  # total steps count
+        self.total_frames = 0 # total frames in current sequence
+        self.frames_counter = 0  # total frames count in the current sequence
+        self.old_frames_count = 0  #steps clount from the frame
+        self.delta_frames = 0  #the difference bitween old and current steps count is equal to total steps in the sequence
+        self.mean_reward = 0
+        
+        # variables for research purpose
         self.win_counter = 0
         self.collision_counter = 0
         
@@ -44,7 +55,7 @@ class IntelligentVehicleEnv(gym.Env):
         self.riding = 'Riding'
         self.turning = 'Turning'
         self.max_steps = 100
-        self.step_counter = self.max_steps
+        self.step_counter = 0
         # distance sensors
         self.us_left = 0
         self.us_center_left = 0
@@ -147,21 +158,41 @@ class IntelligentVehicleEnv(gym.Env):
         time.sleep(0.4)
 
 # ----------------------------------------------------------------------------------------------------------------------
+    def _write_report(self):
+        with open('Report.txt', 'a+') as file:                
+            filedata = file.write('\nSummary: {} | Step: {} | Reward: {}'.format(self.run_counter, self.total_steps, self.total_reward))
+        file.close()
+        
+# ----------------------------------------------------------------------------------------------------------------------
     def reset(self):
         sv.stop()
+        self.delta_frames = self.total_frames - self.old_frames_count
+        self.total_steps += self.delta_frames
+        '''
+        if self.delta_frames > 0:
+            self.mean_reward = self.total_reward / self.delta_frames
+        else:
+            self.mean_reward = 0
+        '''
+        print('Summary: {} | Step: {} | Reward: {}'.format(self.run_counter, self.total_steps, self.total_reward))
+        self._write_report()
         self.intensity_old = 0
-        self.timestamp = 0
-        self.delta_time = 0
-        self.time_old = time.time()
-        self.total_time = 0
+        #self.timestamp = 0
+        #self.delta_time = 0
+        #self.time_old = time.time()
+        #self.total_time = 0
         self.run_counter += 1
-        #self.step_counter = self.max_steps
+        self.total_reward = 0
+        self.mean_reward = 0
+        self.frames_counter = 0
+        self.total_frames = 0
         
         self.col_center = 0
         self.col_left = 0
         self.col_right = 0
         self.col_center_left = 0
         self.col_center_right = 0
+
         return self._get_obs()
 
 #----------------------------------------------------------------------------------------------------------------------
@@ -182,13 +213,13 @@ class IntelligentVehicleEnv(gym.Env):
         if self.col_center or self.col_left or self.col_right or self.col_center_left or self.col_center_right == 6:
             led.ping_red()
             led.ping_red()
-            reward = -1
+            reward -= 1
             self.collision_counter += 1
             sv.ride(ride_value, turn_value)
             time.sleep(3)
             #sv.stop()
             done = True
-            self.reset()
+            #self.reset()
 
 #----------------------------------------------------------------------------------------------------------------------
     def step(self, action):
@@ -206,14 +237,14 @@ class IntelligentVehicleEnv(gym.Env):
                 reward += 0.02
             self.intensity_old = self.intensity
 
-        if self.intensity > 3.2:
+        if self.intensity > 3.0:
+            sv.stop()
             led.ping_green()
             led.ping_green()
             led.ping_green()
             self.win_counter += 1
             sv.ride(-1, 0)
-            time.sleep(5)
-            sv.stop()
+            time.sleep(6)
             reward = 1
             done = True
                 
@@ -222,33 +253,41 @@ class IntelligentVehicleEnv(gym.Env):
         self.check_collision(0.1, self.us_right, -1, 1)
         self.check_collision(0.1, self.us_center_left, -1, -0.5)
         self.check_collision(0.1, self.us_center_right, -1, 0.5)
-
-        #self.timestamp = time.time()
-        #self.deltatime = self.timestamp - self.time_old
-        #self.total_time += self.deltatime
-        #self.time_old = self.timestamp
+        
+        '''
+        # Meassuring the one frame time for multithreading purpose:
+        self.timestamp = time.time()
+        self.deltatime = self.timestamp - self.time_old
+        self.total_time += self.deltatime
+        self.time_old = self.timestamp
+        '''
         
         # Execute one time step within the environment
         self.thread.join()
         self.thread = threading.Thread(target = self._take_action, args=[action])
         self.thread.start()
-                
-        self.render()
         
-        #self.step_counter -= 1
-        #if self.step_counter == 0:
-        #    sv.stop()
-            
+        self.old_frames_count = self.total_frames
+        
+        self.frames_counter += 1
+        self.total_frames += self.frames_counter
+        self.total_reward += reward
+        
+        '''
+        self.total_steps = 0  # total steps count
+        self.frames_counter = 0  # total frames count in the current sequence
+        self.old_frames_count = 0  #steps clount from the frame
+        self.delta_frames = 0  #the difference bitween old and current steps count is equal to total steps in the sequence
+        '''
+        self.render()
         return obs, reward, done, {}
 
 # ----------------------------------------------------------------------------------------------------------------------
     def render(self, mode='human', close=False):
-        
-        
-        self.clear()
-        
-        print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
-        print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
+        #self.clear()
+        #print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
+        #print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
         #print('acc1: {} | accY: {} \n'.format(self.acc_X, self.acc_Y))
         #print('Coll_left: {} | Coll_center_left: {} | Coll_center: {} | Coll_center_right: {} | Coll_right: {} |'.format(self.col_left, self.col_center_left, self.col_center, self.col_center_right, self.col_right))
-        print('Run number: {} | Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.run_counter, self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))
+        #print('Run number: {} | Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.run_counter, self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))       
+        pass
