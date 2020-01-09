@@ -31,8 +31,11 @@ if __name__ == "__main__":
     env = DummyVecEnv([lambda: env])
 
     model = PPO2('MlpPolicy', env, verbose=1)
-    #model.pretrain(dataset, n_epochs=3000)
+    #model.pretrain(dataset, n_epochs=5000)
     #model.save("ppo2_intelligent_vehicle")
+    
+    #print("Loading model...")
+    #model = PPO2.load("ppo2_intelligent_vehicle")
     
     for _ in range(100):
         model.learn(total_timesteps = 128)
