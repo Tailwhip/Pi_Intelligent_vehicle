@@ -1,0 +1,21 @@
+2020-01-10:
+Learning...
+Saving model...
+Loading model...
+Loading a model without an environment, this model cannot be trained until it has a valid environment.
+WARNING:tensorflow:Entity <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x57593a30>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x57593a30>>: AttributeError: module 'gast' has no attribute 'Num'
+WARNING:tensorflow:Entity <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x57573930>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x57573930>>: AttributeError: module 'gast' has no attribute 'Num'
+
+Loading model...
+Loading a model without an environment, this model cannot be trained until it has a valid environment.
+WARNING:tensorflow:Entity <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x5249b850>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x5249b850>>: AttributeError: module 'gast' has no attribute 'Num'
+WARNING:tensorflow:Entity <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x5245f590>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Flatten.call of <tensorflow.python.layers.core.Flatten object at 0x5245f590>>: AttributeError: module 'gast' has no attribute 'Num'
+Traceback (most recent call last):
+  File "main.py", line 41, in <module>
+    model.learn(total_timesteps = 128)
+  File "/usr/local/lib/python3.5/dist-packages/stable_baselines/ppo2/ppo2.py", line 316, in learn
+    self._setup_learn(seed)
+  File "/usr/local/lib/python3.5/dist-packages/stable_baselines/common/base_class.py", line 153, in _setup_learn
+    raise ValueError("Error: cannot train the model without a valid environment, please set an environment with"
+ValueError: Error: cannot train the model without a valid environment, please set an environment withset_env(self, env) method.
+

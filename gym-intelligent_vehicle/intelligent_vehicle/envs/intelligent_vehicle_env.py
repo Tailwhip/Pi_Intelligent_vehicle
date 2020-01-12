@@ -42,7 +42,7 @@ class IntelligentVehicleEnv(gym.Env):
         # variables for counting mean reward
         self.total_reward = 0
         self.total_steps = 0  # total steps count
-        self.frames_counter = 0  # total frames count in the current sequence
+        self.step_counter = 0  # the number of step in the current sequence
         self.mean_reward = 0
         
         # variables for research purpose
@@ -50,11 +50,11 @@ class IntelligentVehicleEnv(gym.Env):
         self.collision_counter = 0
         
         # set the reward range
-        # self.reward_range(0, 1)
         self.riding = 'Riding'
         self.turning = 'Turning'
         self.max_steps = 100
         self.step_counter = 0
+        
         # distance sensors
         self.us_left = 0
         self.us_center_left = 0
@@ -84,13 +84,6 @@ class IntelligentVehicleEnv(gym.Env):
         self.col_center_left = 0
         self.col_center_right = 0
 
-        # turning actions space
-        self.turn_left = 0
-        self.turn_right = 0
-        # riding actions space
-        self.ride_forward = 0
-        self.ride_backward = 0
-
         # defining an action space
         self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2, ), dtype=np.float16)
 
@@ -98,12 +91,8 @@ class IntelligentVehicleEnv(gym.Env):
         self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(9, ), dtype=np.float16)
 
 # ----------------------------------------------------------------------------------------------------------------------
-    def _get_intensity(self):
+    def _sum_intensity(self):
         self.intensity = self.int_front_left + self.int_front_right + self.int_back_left + self.int_back_right
-
-# ----------------------------------------------------------------------------------------------------------------------
-    def _get_distance(self):
-        self.distance = self.us_left + self.us_center_left + self.us_center + self.us_center_right + self.us_right
 
 # ----------------------------------------------------------------------------------------------------------------------
     def _get_obs(self):
@@ -147,8 +136,7 @@ class IntelligentVehicleEnv(gym.Env):
                                       self.us_center_right, self.us_right, self.int_front_left, self.int_front_right,
                                       self.int_back_left, self.int_back_right])
                                         #self.acc_X, self.acc_Y
-        self._get_intensity()
-        #self._get_distance()
+        self._sum_intensity()
         return obs
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -165,7 +153,7 @@ class IntelligentVehicleEnv(gym.Env):
 # ----------------------------------------------------------------------------------------------------------------------
     def reset(self):
         sv.stop()
-        self.total_steps += self.frames_counter
+        self.total_steps += self.step_counter
         '''
         if self.delta_frames > 0:
             self.mean_reward = self.total_reward / self.delta_frames
@@ -182,7 +170,7 @@ class IntelligentVehicleEnv(gym.Env):
         self.run_counter += 1
         self.total_reward = 0
         self.mean_reward = 0
-        self.frames_counter = 0
+        self.step_counter = 0
         
         self.col_center = 0
         self.col_left = 0
@@ -283,8 +271,8 @@ class IntelligentVehicleEnv(gym.Env):
         self.thread = threading.Thread(target = self._take_action, args=[action])
         self.thread.start()
         
-        self.frames_counter += 1
-        print('Frames counter: {} |'.format(self.frames_counter))
+        self.step_counter += 1
+        print('Step counter: {} |'.format(self.step_counter))
         self.total_reward += reward
 
         self.render()
