@@ -7,6 +7,7 @@ from stable_baselines.gail import generate_expert_traj
 from stable_baselines.gail import ExpertDataset
 from stable_baselines import PPO2
 from multiprocessing import freeze_support
+import tensorflow as tf
 
 import led
 import intelligent_vehicle
@@ -23,6 +24,9 @@ ex_gen.generate()
 
 #if __name__ == "__main__":
  #   freeze_support()
+ 
+# Custom MLP policy of two layers of size 256 each with Leaky ReLu activation function
+policy_kwargs = dict(act_fun=tf.nn.leaky_relu, net_arch=[256, 256])
 
 dataset = ExpertDataset(expert_path='expert_intelligent_vehicle.npz', traj_limitation=1, batch_size=128)
 
@@ -30,7 +34,11 @@ dataset = ExpertDataset(expert_path='expert_intelligent_vehicle.npz', traj_limit
 env = gym.make('int-v0')
 env = DummyVecEnv([lambda: env])
 
-model = PPO2(MlpPolicy, env, verbose=1)
+model = PPO2("MlpPolicy", env, policy_kwargs=policy_kwargs, verbose=1)
+
+# Retrieve the environment
+env = model.get_env()
+
 model.pretrain(dataset, n_epochs=3000)
 print("Saving model...")
 model.save("ppo2_intelligent_vehicle")
@@ -38,7 +46,7 @@ model.save("ppo2_intelligent_vehicle")
 del model
 
 print("Loading model...")
-model = PPO2.load("ppo2_intelligent_vehicle", env=env, policy=MlpPolicy)
+model = PPO2.load("ppo2_intelligent_vehicle", env=env)
 
 for _ in range(1000):
     print("Learning...")
@@ -50,14 +58,12 @@ for _ in range(1000):
 
 #print("Generating expert trajectories...")
 #generate_expert_traj(model, 'expert_intelligent_vehicle_2', n_timesteps=int(128), n_episodes=10)
-    
-# remove to demonstrate saving and loading
-#del model
-print("Loading model...")
-model = PPO2.load("ppo2_intelligent_vehicle", env=env, policy=MlpPolicy)
 
 # restore np.load for future normal usage
 #np.load = np_load_old
+
+#print("Loading model...")
+#model = PPO2.load("ppo2_intelligent_vehicle", env=env, policy=MlpPolicy)
 
 obs = env.reset()
 for i in range(1000):

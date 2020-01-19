@@ -1,12 +1,4 @@
 
 Summary: 0 | Step: 0 | Reward: 0
-Summary: 1 | Step: 128 | Reward: -3.2499999999999956
-Summary: 2 | Step: 256 | Reward: -2.27
-Summary: 3 | Step: 1402 | Reward: -28.550000000000487
-Summary: 4 | Step: 1453 | Reward: -2.0100000000000002
-Summary: 5 | Step: 1537 | Reward: -2.610000000000001
-Summary: 6 | Step: 1543 | Reward: -1.1600000000000001
-Summary: 0 | Step: 0 | Reward: 0
-Summary: 1 | Step: 128 | Reward: -2.759999999999997
-Summary: 0 | Step: 0 | Reward: 0
-Summary: 0 | Step: 0 | Reward: 0
+Summary: 1 | Step: 94 | Reward: 0.5500000000000005
+Summary: 2 | Step: 128 | Reward: 0.05

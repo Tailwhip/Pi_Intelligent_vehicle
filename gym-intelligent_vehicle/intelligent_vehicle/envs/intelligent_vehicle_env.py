@@ -1,5 +1,6 @@
 import gym
 from gym import spaces
+from gym.utils import EzPickle
 import numpy as np
 import random
 import time
@@ -14,11 +15,13 @@ import servo as sv
 import led
 
 
-class IntelligentVehicleEnv(gym.Env):
+class IntelligentVehicleEnv(gym.Env, EzPickle):
     metadata = {'render.modes': ['human']}
 
     def __init__(self):
         super(IntelligentVehicleEnv, self).__init__()
+        
+        EzPickle.__init__(self)
         
         # initialise sensors
         us.setup()
@@ -48,6 +51,7 @@ class IntelligentVehicleEnv(gym.Env):
         # variables for research purpose
         self.win_counter = 0
         self.collision_counter = 0
+        self.action = [0, 0]
         
         # set the reward range
         self.riding = 'Riding'
@@ -142,6 +146,8 @@ class IntelligentVehicleEnv(gym.Env):
 # ----------------------------------------------------------------------------------------------------------------------
     def _take_action(self, action):
         self.riding = sv.ride(action[0], action[1])
+        #self.action[0] = action[0]
+        #self.action[1] = action[1]
         time.sleep(0.4)
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -160,7 +166,7 @@ class IntelligentVehicleEnv(gym.Env):
         else:
             self.mean_reward = 0
         '''
-        print('Summary: {} | Step: {} | Reward: {}'.format(self.run_counter, self.total_steps, self.total_reward))
+        #print('Summary: {} | Step: {} | Reward: {}'.format(self.run_counter, self.total_steps, self.total_reward))
         self._write_report()
         self.intensity_old = 0
         #self.timestamp = 0
@@ -234,7 +240,7 @@ class IntelligentVehicleEnv(gym.Env):
 
         # chcecking collisions:
         if not done:
-            check_collision = self.check_collision(0.1, self.us_center, -1, 0)
+            check_collision = self.check_collision(0.08, self.us_center, -1, 0)
             reward += check_collision[0]
             done = check_collision[1]
         
@@ -244,17 +250,17 @@ class IntelligentVehicleEnv(gym.Env):
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.1, self.us_right, -1, 1)
+            check_collision = self.check_collision(0.08, self.us_right, -1, 1)
             reward += check_collision[0]
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.1, self.us_center_left, -1, -0.5)
+            check_collision = self.check_collision(0.08, self.us_center_left, -1, -0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.1, self.us_center_right, -1, 0.5)
+            check_collision = self.check_collision(0.08, self.us_center_right, -1, 0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
@@ -272,18 +278,18 @@ class IntelligentVehicleEnv(gym.Env):
         self.thread.start()
         
         self.step_counter += 1
-        print('Step counter: {} |'.format(self.step_counter))
+        
         self.total_reward += reward
-
         self.render()
         return obs, reward, done, {}
 
 # ----------------------------------------------------------------------------------------------------------------------
     def render(self, mode='human', close=False):
-        #self.clear()
-        #print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
-        #print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
+        self.clear()
+        print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
+        print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
         #print('acc1: {} | accY: {} \n'.format(self.acc_X, self.acc_Y))
         #print('Coll_left: {} | Coll_center_left: {} | Coll_center: {} | Coll_center_right: {} | Coll_right: {} |'.format(self.col_left, self.col_center_left, self.col_center, self.col_center_right, self.col_right))
         #print('Run number: {} | Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.run_counter, self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))       
-        pass
+        #print('Step counter: {} | Ride: {} | Turn: {}'.format(self.step_counter, self.action[0], self.action[1]))
+        #pass

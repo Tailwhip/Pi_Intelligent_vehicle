@@ -21,6 +21,8 @@ void svRide(float q0, float q1) {
 	svSetup();
 	gpioServo(RIGHT_WHEEL, MID_WIDTH + (int)multiplier0 - (int)multiplier1);
 	gpioServo(LEFT_WHEEL, MID_WIDTH - (int)multiplier0 - (int)multiplier1);
+	//gpioServo(RIGHT_WHEEL, MID_WIDTH - (int)multiplier0 - (int)multiplier1);
+	//gpioServo(LEFT_WHEEL, MID_WIDTH + (int)multiplier0 - (int)multiplier1);
 	//time_sleep(0.4);
 }
 

@@ -63,9 +63,9 @@ int main() {
         
         //ledPingGreen();        
         
-        printf("US: 1: %f | 2: %f | 3: %f | 4: %f | 5: %f \n", 
-        usGetDistance(1), usGetDistance(2), usGetDistance(3),
-        usGetDistance(4), usGetDistance(5));
+        //printf("US: 1: %f | 2: %f | 3: %f | 4: %f | 5: %f \n", 
+        //usGetDistance(1), usGetDistance(2), usGetDistance(3),
+        //usGetDistance(4), usGetDistance(5));
         
         //printf("%+10f", accGetAccX());
         //time_sleep(0.005);
@@ -74,7 +74,7 @@ int main() {
         //printf("ACC: X: %+1f \n", accGetAccX());
 
         //svStop();
-        //svRide(1, 0);
+        svRide(0, 1);
         //svForward(-1);
         
         //svTurn(1);
