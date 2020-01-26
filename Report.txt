@@ -1,4 +1,0 @@
-
-Summary: 0 | Step: 0 | Reward: 0
-Summary: 1 | Step: 94 | Reward: 0.5500000000000005
-Summary: 2 | Step: 128 | Reward: 0.05

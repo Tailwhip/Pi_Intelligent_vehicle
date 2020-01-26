@@ -65,6 +65,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         self.us_center = 0
         self.us_center_right = 0
         self.us_right = 0
+        self.col_count_bias = 2
         # acceleration sensor
         self.acc_X = 0
         self.acc_Y = 0
@@ -101,11 +102,11 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
 # ----------------------------------------------------------------------------------------------------------------------
     def _get_obs(self):
         # distance sensors
-        self.us_left = us.getDistance(1);
-        self.us_center_left = us.getDistance(2);
-        self.us_center = us.getDistance(3);
-        self.us_center_right = us.getDistance(4);
-        self.us_right = us.getDistance(5);
+        self.us_left = round(us.getDistance(1), 2)
+        self.us_center_left = round(us.getDistance(2), 2)
+        self.us_center = round(us.getDistance(3), 2)
+        self.us_center_right = round(us.getDistance(4), 2)
+        self.us_right = round(us.getDistance(5), 2)
         # acceleration sensor
         #self.acc_X = acc.getAccX()
         #self.acc_Y = acc.getAccY()
@@ -200,12 +201,16 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
             self.col_right = 0
             self.col_center_left = 0
             self.col_center_right = 0
+            
+        self.render()
         
-        if self.col_center or self.col_left or self.col_right or self.col_center_left or self.col_center_right == 6:
+        if self.col_center == self.col_count_bias or self.col_left == self.col_count_bias or self.col_right == self.col_count_bias or self.col_center_left == self.col_count_bias or self.col_center_right == self.col_count_bias:
+            sv.stop()
             led.ping_red()
             led.ping_red()
+            led.ping_red()           
             self.collision_counter += 1
-            sv.ride(ride_value, turn_value)
+            #sv.ride(ride_value, turn_value)
             time.sleep(3)
             return -1, True
         else:
@@ -216,7 +221,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         obs = self._get_obs()
         reward = 0
         done = False
-
+        
         self.delta_counter -= 1
         if self.delta_counter == 0:
             self.delta_counter = 1
@@ -227,20 +232,20 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
                 reward += 0.02
             self.intensity_old = self.intensity
 
-        if self.intensity > 3.0:
+        if self.intensity > 3.2:
             sv.stop()
             led.ping_green()
             led.ping_green()
             led.ping_green()
             self.win_counter += 1
-            sv.ride(-1, 0)
-            time.sleep(6)
+            #sv.ride(-1, 0)
+            time.sleep(3)
             reward = 1
             done = True
 
         # chcecking collisions:
         if not done:
-            check_collision = self.check_collision(0.08, self.us_center, -1, 0)
+            check_collision = self.check_collision(0.1, self.us_center, -1, 0)
             reward += check_collision[0]
             done = check_collision[1]
         
@@ -250,17 +255,17 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.08, self.us_right, -1, 1)
+            check_collision = self.check_collision(0.1, self.us_right, -1, 1)
             reward += check_collision[0]
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.08, self.us_center_left, -1, -0.5)
+            check_collision = self.check_collision(0.12, self.us_center_left, -1, -0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.08, self.us_center_right, -1, 0.5)
+            check_collision = self.check_collision(0.12, self.us_center_right, -1, 0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
@@ -280,7 +285,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         self.step_counter += 1
         
         self.total_reward += reward
-        self.render()
+        
         return obs, reward, done, {}
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -289,7 +294,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
         print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))
         #print('acc1: {} | accY: {} \n'.format(self.acc_X, self.acc_Y))
-        #print('Coll_left: {} | Coll_center_left: {} | Coll_center: {} | Coll_center_right: {} | Coll_right: {} |'.format(self.col_left, self.col_center_left, self.col_center, self.col_center_right, self.col_right))
+        print('Coll_left: {} | Coll_center_left: {} | Coll_center: {} | Coll_center_right: {} | Coll_right: {} |'.format(self.col_left, self.col_center_left, self.col_center, self.col_center_right, self.col_right))
         #print('Run number: {} | Collisions: {} | Wins: {} | Intensity: {} | Delta: {}'.format(self.run_counter, self.collision_counter, self.win_counter, self.intensity, self.delta_intensity))       
         #print('Step counter: {} | Ride: {} | Turn: {}'.format(self.step_counter, self.action[0], self.action[1]))
         #pass

@@ -39,7 +39,7 @@ model = PPO2("MlpPolicy", env, policy_kwargs=policy_kwargs, verbose=1)
 # Retrieve the environment
 env = model.get_env()
 
-model.pretrain(dataset, n_epochs=3000)
+model.pretrain(dataset, n_epochs=1000)
 print("Saving model...")
 model.save("ppo2_intelligent_vehicle")
 
