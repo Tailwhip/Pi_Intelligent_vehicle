@@ -1,8 +1,5 @@
-#include <wiringPi.h>
-#include <stdio.h>
-#include <math.h>
 #include "ultrasonic.h"
-#include "clamp.h"
+
 
 int distanceOld = 0;
 int firstTimer = 1;

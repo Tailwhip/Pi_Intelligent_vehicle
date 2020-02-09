@@ -1,5 +1,14 @@
-#ifndef SERVO_H
-#define SERVO_H
+#include <stdlib.h>
+#include <signal.h>
+#include <pigpio.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+#include "clamp.h"
+
+#ifndef _SERVO_H
+#define _SERVO_H
 
 #define RIGHT_WHEEL				26//16 	// F: Clockwise B: CounterClockwise
 									// TR: CounterClockwise TL: Clockwise

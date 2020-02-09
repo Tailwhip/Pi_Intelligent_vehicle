@@ -1,12 +1,5 @@
-#include <stdlib.h>
-#include <signal.h>
-#include <pigpio.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
-
 #include "servo.h"
-#include "clamp.h"
+
 
 void svSetup(void) {
 	if (gpioInitialise() < 0) 

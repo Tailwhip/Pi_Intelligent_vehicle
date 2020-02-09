@@ -26,28 +26,28 @@ ex_gen.generate()
  #   freeze_support()
  
 # Custom MLP policy of two layers of size 256 each with Leaky ReLu activation function
-policy_kwargs = dict(act_fun=tf.nn.leaky_relu, net_arch=[256, 256])
+policy_kwargs = dict(act_fun = tf.nn.leaky_relu, net_arch = [256, 256])
 
-dataset = ExpertDataset(expert_path='expert_intelligent_vehicle.npz', traj_limitation=1, batch_size=128)
+dataset = ExpertDataset(expert_path = 'expert_intelligent_vehicle.npz', traj_limitation = 1, batch_size = 128)
 
 # The algorithms require a vectorized environment to run
 env = gym.make('int-v0')
 env = DummyVecEnv([lambda: env])
 
-model = PPO2("MlpPolicy", env, policy_kwargs=policy_kwargs, verbose=1)
+model = PPO2("MlpPolicy", env, policy_kwargs = policy_kwargs, verbose = 1)
 
 # Retrieve the environment
 env = model.get_env()
 
-model.pretrain(dataset, n_epochs=1000)
+model.pretrain(dataset, n_epochs = 3000)
 print("Saving model...")
 model.save("ppo2_intelligent_vehicle")
-
+'''
 del model
 
 print("Loading model...")
-model = PPO2.load("ppo2_intelligent_vehicle", env=env)
-
+model = PPO2.load("ppo2_intelligent_vehicle", env = env)
+'''
 for _ in range(1000):
     print("Learning...")
     model.learn(total_timesteps = 128)

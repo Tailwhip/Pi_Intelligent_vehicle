@@ -1,10 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <wiringPiI2C.h>
-#include <errno.h>
-#include <unistd.h>
-#include <pigpio.h>
-#include <math.h>
 #include "intensity.h"
 
 int fd_1, fd_2, fd_3, fd_4;

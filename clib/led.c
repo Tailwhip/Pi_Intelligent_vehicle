@@ -1,5 +1,3 @@
-#include <wiringPi.h>
-#include <stdio.h>
 #include "led.h"
 
 

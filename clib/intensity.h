@@ -1,5 +1,13 @@
-#ifndef INTENSITY_H
-#define INTENSITY_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <wiringPiI2C.h>
+#include <errno.h>
+#include <unistd.h>
+#include <pigpio.h>
+#include <math.h>
+
+#ifndef _INTENSITY_H
+#define _INTENSITY_H
 
 //Define some constants from the datasheet
 #define DEVICE_0				    0x23 // Default device I2C address 

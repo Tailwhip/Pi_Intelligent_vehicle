@@ -38,7 +38,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         self.time_old = time.time()
         self.total_time = 0
         '''
-        self.thread = threading.Thread(target = self._take_action, args=[[0,0]])
+        self.thread = threading.Thread(target = self._take_action, args = [[0,0]])
         self.thread.start()
         self.clear = lambda: os.system('clear')
         
@@ -90,11 +90,10 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         self.col_center_right = 0
 
         # defining an action space
-        self.action_space = spaces.Box(low=-1.0, high=1.0, shape=(2, ), dtype=np.float16)
+        self.action_space = spaces.Box(low = -1.0, high = 1.0, shape = (2, ), dtype = np.float16)
 
         # defining an observation space
-        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(9, ), dtype=np.float16)
-
+        self.observation_space = spaces.Box(low = 0.0, high=1.0, shape = (9, ), dtype = np.float16)
 # ----------------------------------------------------------------------------------------------------------------------
     def _sum_intensity(self):
         self.intensity = self.int_front_left + self.int_front_right + self.int_back_left + self.int_back_right
@@ -260,12 +259,12 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.12, self.us_center_left, -1, -0.5)
+            check_collision = self.check_collision(0.1, self.us_center_left, -1, -0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
         if not done:
-            check_collision = self.check_collision(0.12, self.us_center_right, -1, 0.5)
+            check_collision = self.check_collision(0.1, self.us_center_right, -1, 0.5)
             reward += check_collision[0]
             done = check_collision[1]
         
@@ -279,7 +278,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         
         # Execute one time step within the environment
         self.thread.join()
-        self.thread = threading.Thread(target = self._take_action, args=[action])
+        self.thread = threading.Thread(target = self._take_action, args = [action])
         self.thread.start()
         
         self.step_counter += 1
@@ -289,7 +288,7 @@ class IntelligentVehicleEnv(gym.Env, EzPickle):
         return obs, reward, done, {}
 
 # ----------------------------------------------------------------------------------------------------------------------
-    def render(self, mode='human', close=False):
+    def render(self, mode = 'human', close = False):
         self.clear()
         print('Obs: us1: {} | us2: {} | us3: {} | us4: {} | us5: {}'.format(self.us_left, self.us_center_left, self.us_center, self.us_center_right, self.us_right))
         print('int1: {} | int2: {} | int3: {} | int4: {} | \n'.format(self.int_front_left, self.int_front_right, self.int_back_left, self.int_back_right))

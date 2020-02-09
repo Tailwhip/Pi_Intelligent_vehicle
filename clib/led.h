@@ -1,5 +1,8 @@
-#ifndef LED_H
-#define LED_H
+#include <wiringPi.h>
+#include <stdio.h>
+
+#ifndef _LED_H
+#define _LED_H
 
 #define LED_DELAY	500 // [us]
 #define GREEN	28

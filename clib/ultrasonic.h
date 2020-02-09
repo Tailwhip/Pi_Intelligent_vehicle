@@ -1,5 +1,11 @@
-#ifndef ULTRASONIC_H
-#define ULTRASONIC_H
+#include <wiringPi.h>
+#include <stdio.h>
+#include <math.h>
+
+#include "clamp.h"
+
+#ifndef _ULTRASONIC_H
+#define _ULTRASONIC_H
 
 #define TRIG_1		21//7
 #define ECHO_1		15

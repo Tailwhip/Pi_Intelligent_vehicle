@@ -1,13 +1,3 @@
-#include <stdlib.h>
-#include <wiringPiI2C.h>
-#include <errno.h>
-#include <unistd.h>
-#include <asm/types.h>
-#include <stdio.h>
-#include <wiringPi.h>
-#include <math.h>
-
-#include "clamp.h"
 #include "acceleration.h"
 
 int fd;
